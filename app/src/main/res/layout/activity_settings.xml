@@ -33,7 +33,7 @@
         <Switch
             android:layout_width="match_parent"
             android:layout_height="@dimen/settings_menu_button_height"
-            android:backgroundTint="#ffffff"
+            android:backgroundTint="@color/white"
             android:text="@string/theme_button_name"
             android:textSize="@dimen/settings_menu_button_text_size"
             android:textColor="@color/second_menu_button_text_color"
@@ -45,8 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/settings_menu_button_height"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/settings_menu_button_padding_left"
-            android:paddingRight="@dimen/settings_menu_button_padding_right">
+            android:paddingHorizontal="@dimen/settings_menu_button_padding_right">
             
             <TextView
                 android:layout_width="wrap_content"
@@ -66,8 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/settings_menu_button_height"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/settings_menu_button_padding_left"
-            android:paddingRight="@dimen/settings_menu_button_padding_right">
+            android:paddingHorizontal="@dimen/settings_menu_button_padding_right">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,8 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/settings_menu_button_height"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/settings_menu_button_padding_left"
-            android:paddingRight="@dimen/settings_menu_button_padding_right">
+            android:paddingHorizontal="@dimen/settings_menu_button_padding_right">
 
             <TextView
                 android:layout_width="wrap_content"

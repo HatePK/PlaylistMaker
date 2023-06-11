@@ -3,11 +3,12 @@
     <dimen name="header_text_size">22sp</dimen>
     <dimen name="button_icon_padding">8dp</dimen>
     <dimen name="zero_dp_value">0dp</dimen>
+    <dimen name="zero_letter_space">0</dimen>
     <dimen name="main_menu_button_text_size">22sp</dimen>
     <dimen name="main_menu_button_corner_radius">16dp</dimen>
 
     <dimen name="settings_menu_button_height">61dp</dimen>
     <dimen name="settings_menu_button_padding_left">16dp</dimen>
     <dimen name="settings_menu_button_padding_right">16dp</dimen>
-    <dimen name="settings_menu_button_text_size">16dp</dimen>
+    <dimen name="settings_menu_button_text_size">16sp</dimen>
 </resources>
