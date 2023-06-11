@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/second_menu_background"
+    tools:context=".SettingsActivity">
+
+    <Button app:icon="@drawable/back"
+        app:iconTint="@color/button_text_color"
+        app:iconPadding="24dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/back_button"
+        android:paddingLeft="16dp"
+        android:gravity="start|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:backgroundTint="@color/second_menu_background"
+        android:text="@string/settings_button_name"
+        android:textSize="@dimen/header_text_size"
+        android:textColor="@color/button_text_color"
+        android:textAllCaps="false"
+        android:letterSpacing="0"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_button_height"
+            android:backgroundTint="#ffffff"
+            android:text="@string/theme_button_name"
+            android:textSize="@dimen/settings_menu_button_text_size"
+            android:textColor="@color/second_menu_button_text_color"
+            android:paddingLeft="@dimen/settings_menu_button_padding_left"
+            android:paddingRight="6dp"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_button_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/settings_menu_button_padding_left"
+            android:paddingRight="@dimen/settings_menu_button_padding_right">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/share_button_name"
+                android:textColor="@color/second_menu_button_text_color"
+                android:textSize="@dimen/settings_menu_button_text_size"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/share"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_button_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/settings_menu_button_padding_left"
+            android:paddingRight="@dimen/settings_menu_button_padding_right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/support_button_name"
+                android:textColor="@color/second_menu_button_text_color"
+                android:textSize="@dimen/settings_menu_button_text_size"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/support"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_button_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/settings_menu_button_padding_left"
+            android:paddingRight="@dimen/settings_menu_button_padding_right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/agreement_button_name"
+                android:textColor="@color/second_menu_button_text_color"
+                android:textSize="@dimen/settings_menu_button_text_size"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/agreement"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
