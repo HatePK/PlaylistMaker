@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
 
+@Suppress("DEPRECATION")
 class SettingsActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,8 +17,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
-            val searchIntent = Intent(this, MainActivity::class.java)
-            startActivity(searchIntent)
+            super.onBackPressed()
         }
 
         val share = findViewById<FrameLayout>(R.id.share_button)

@@ -15,7 +15,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 
+@Suppress("DEPRECATION")
 class SearchActivity : AppCompatActivity() {
+    private var countValue = ""
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +33,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val searchIntent = Intent(this, MainActivity::class.java)
-            startActivity(searchIntent)
+            super.onBackPressed()
         }
 
         clearButton.setOnClickListener {
@@ -69,10 +70,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val INPUT_VALUE = "INPUT_VALUE"
+        private const val INPUT_VALUE = "INPUT_VALUE"
     }
-
-    private var countValue = ""
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
