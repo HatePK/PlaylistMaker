@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".SettingsActivity">
+
+    <Button
+        app:icon="@drawable/back"
+        style="@style/HeaderButton"
+        android:id="@+id/back_button"
+        android:text="@string/search_button_name"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_menu_input_height"
+        android:layout_marginHorizontal="@dimen/search_menu_input_margin_horizontal"
+        android:layout_marginVertical="@dimen/search_menu_input_margin_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_edittext"
+        android:gravity="center"
+        >
+        <EditText
+            android:id="@+id/search_input"
+            style="@style/Search_input"
+            android:layout_weight="1"
+            android:layout_width="@dimen/zero_dp_value"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/search_menu_icon"
+            android:drawablePadding="@dimen/search_menu_input_hint_text_padding"
+            android:paddingLeft="@dimen/search_menu_input_hint_icon_padding"
+            android:inputType="text"
+
+            android:hint="Поиск"
+            android:lines="1"
+            android:fontFamily="@font/ys_display_regular"
+            android:textSize="@dimen/search_menu_button_text_size"/>
+        <Button
+            android:id="@+id/search_input_clear_button"
+            style="@style/ClearSearchButton"
+            android:layout_width="@dimen/search_menu_hide_input_button_width"
+            android:layout_height="@dimen/search_menu_hide_input_button_height"
+            app:icon="@drawable/clear_search_button"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+</LinearLayout>
