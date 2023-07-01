@@ -64,4 +64,26 @@
         <item name="android:textColorHint">@color/button_text_color</item>
         <item name="android:drawableTint">@color/button_text_color</item>
     </style>
+    <style name="TrackItemHeader" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/search_menu_button_text_size</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="TrackItemDescription" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/track_item_secondary_line_text</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="TrackItemIcon" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="tint">@color/white</item>
+    </style>
 </resources>
