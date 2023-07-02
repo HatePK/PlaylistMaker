@@ -9,11 +9,20 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <Button
-        app:icon="@drawable/back"
-        style="@style/HeaderButton"
-        android:id="@+id/back_button"
-        android:text="@string/search_button_name"/>
+    <LinearLayout style="@style/HeaderContainer">
+        <Button
+            android:id="@+id/back_button"
+            style="@style/HeaderButton"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                style="@style/HeaderText"
+                android:text="@string/search_button_name"/>
+        </LinearLayout>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
