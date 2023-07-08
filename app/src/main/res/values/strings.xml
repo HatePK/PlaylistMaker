@@ -12,4 +12,11 @@
     <string name="support_extra_topic">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="agreement_button_name">Пользовательское соглашение</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="something_went_wrong">
+        Проблемы со связью \n
+        \n
+        Загрузка не удалась. Проверьте подключение к интернету
+    </string>
+    <string name="reload">Обновить</string>
 </resources>
