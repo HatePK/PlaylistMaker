@@ -30,9 +30,11 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             )
             .into(image)
 
+        val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(model.trackTimeMillis.toInt())
+
         name.text = model.trackName
         artistName.text = model.artistName
-        time.text = model.trackTimeMillis
+        time.text = formattedTime
     }
 
     private fun dpToPx(dp: Float, context: Context): Int {
