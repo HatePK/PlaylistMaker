@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
+import com.google.android.material.switchmaterial.SwitchMaterial
 
+const val SHARED_PREFERENCES = "playlist_maker_preferences"
+const val DARK_THEME_ENABLED = "false"
 @Suppress("DEPRECATION")
 class SettingsActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -18,6 +21,17 @@ class SettingsActivity : AppCompatActivity() {
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
             super.onBackPressed()
+        }
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        val sharedPrefs = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
+
+        themeSwitcher.isChecked = sharedPrefs.getBoolean(DARK_THEME_ENABLED, false)
+
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit()
+                .putBoolean(DARK_THEME_ENABLED, checked)
+                .apply()
         }
 
         val share = findViewById<FrameLayout>(R.id.share_button)

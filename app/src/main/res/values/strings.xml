@@ -19,4 +19,7 @@
         Загрузка не удалась. Проверьте подключение к интернету
     </string>
     <string name="reload">Обновить</string>
+    <string name="switch_text">Темная тема</string>
+    <string name="search_history_header">Вы искали</string>
+    <string name="search_history_clear_button_text">Очистить историю</string>
 </resources>

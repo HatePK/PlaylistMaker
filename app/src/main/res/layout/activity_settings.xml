@@ -28,16 +28,12 @@
         android:orientation="vertical"
         android:layout_marginTop="24dp">
 
-        <Switch
-            style="@style/SwitchButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/settings_menu_button_height"
-            android:text="@string/theme_button_name"
-            android:textSize="@dimen/settings_menu_button_text_size"
-            android:paddingLeft="@dimen/settings_menu_button_padding_left"
-            android:paddingRight="6dp"
-            android:fontFamily="@font/ys_display_regular"
-            />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            style="@style/ButtonContainer"
+            android:text="@string/switch_text"
+            android:layout_gravity="start"
+            android:layout_height="wrap_content"/>
 
         <FrameLayout
             style="@style/ButtonContainer"
