@@ -10,6 +10,9 @@ import com.google.gson.reflect.TypeToken
 
 
 class SearchHistory (context: Context) {
+    companion object {
+        const val SAVED_TRACKS_MAX = 10
+    }
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
     private val sharedPrefsTracks = sharedPreferences.getString(SAVED_TRACKS, null)
@@ -21,8 +24,8 @@ class SearchHistory (context: Context) {
             if (doesTrackExist) {
                 tracksArray.remove(item)
                 tracksArray.add(0, item)
-            } else if (tracksArray.size >= 10) {
-                tracksArray.remove(tracksArray[9])
+            } else if (tracksArray.size >= SAVED_TRACKS_MAX) {
+                tracksArray.remove(tracksArray[SAVED_TRACKS_MAX - 1])
                 tracksArray.add(0, item)
             } else {
                 tracksArray.add(0, item)
