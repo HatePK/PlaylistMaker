@@ -65,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
         searchHistory()
 
         val listener =
-            SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 if (key == SAVED_TRACKS) {
                     val sharedPrefsTracks = SearchHistory(this).returnSavedTracks()
                     savedTracks.clear()
@@ -154,6 +154,7 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton.setOnClickListener {
             recyclerView.visibility = View.GONE
+            searchPlaceholder.visibility = View.GONE
             inputEditText.setText("")
             tracks.clear()
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -176,6 +177,7 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.visibility = clearButtonVisibility(s)
                 countValue = inputEditText.text.toString()
                 searchHistory.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true  && savedTracks.size > 0) View.VISIBLE else View.GONE
+                if (inputEditText.hasFocus() && s?.isEmpty() == true && savedTracks.size > 0) searchPlaceholder.visibility = View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -206,6 +208,11 @@ class SearchActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(INPUT_VALUE,"")
             inputEditText.setText(countValue)
+
+            val sharedPrefsTracks = SearchHistory(this).returnSavedTracks()
+            savedTracks.clear()
+            savedTracks.addAll(sharedPrefsTracks)
+            savedTrackAdapter.notifyDataSetChanged()
         }
     }
 
