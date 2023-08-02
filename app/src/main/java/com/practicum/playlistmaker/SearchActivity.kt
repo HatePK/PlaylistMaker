@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -14,18 +15,22 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+const val SAVED_TRACKS = "saved_tracks"
 class SearchActivity : AppCompatActivity() {
     private var countValue = ""
 
     private val tracks = ArrayList<Track>()
+    private val savedTracks = ArrayList<Track>()
     private val apiBaseUrl = "https://itunes.apple.com"
-    private val trackAdapter = TrackAdapter(tracks)
+    private val trackAdapter = TrackAdapter(tracks, this)
+    private val savedTrackAdapter = TrackAdapter(savedTracks, this)
     private var searchInputForReload = ""
 
     private val retrofit = Retrofit.Builder()
@@ -40,23 +45,45 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchPlaceholderImage: ImageView
     private lateinit var errorButton: Button
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewSavedTracks: RecyclerView
     private lateinit var backButton: Button
     private lateinit var inputEditText: EditText
     private lateinit var clearButton: Button
+    private lateinit var searchHistory: LinearLayout
+    private lateinit var clearHistoryButton: Button
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
 
         setViews()
         setAdapter()
         setListeners()
         saveState(savedInstanceState)
+        searchHistory()
+
+        val listener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == SAVED_TRACKS) {
+                    val sharedPrefsTracks = SearchHistory(this).returnSavedTracks()
+                    savedTracks.clear()
+                    savedTracks.addAll(sharedPrefsTracks)
+                    savedTrackAdapter.notifyDataSetChanged()
+                }
+            }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+    }
+    fun addTrackToHistory(track: Track) {
+        val searchHistory = SearchHistory(this)
+        searchHistory.onListElementClick(track)
     }
 
     private fun setAdapter() {
         recyclerView.adapter = trackAdapter
+        recyclerViewSavedTracks.adapter = savedTrackAdapter
     }
 
     private fun makeSearch(text: String) {
@@ -89,10 +116,25 @@ class SearchActivity : AppCompatActivity() {
         searchPlaceholderMessage = findViewById(R.id.searchPlaceholderMessage)
         searchPlaceholderImage = findViewById(R.id.searchPlaceholderImage)
         recyclerView = findViewById(R.id.recyclerView)
+        recyclerViewSavedTracks = findViewById(R.id.recyclerViewSaved)
         errorButton = findViewById(R.id.errorButton)
         backButton = findViewById(R.id.back_button)
         inputEditText = findViewById(R.id.search_input)
         clearButton = findViewById(R.id.search_input_clear_button)
+        searchHistory = findViewById(R.id.historyView)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+    }
+
+    private fun searchHistory() {
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            val sharedPrefsTracks = SearchHistory(this).returnSavedTracks()
+            savedTracks.addAll(sharedPrefsTracks)
+            savedTrackAdapter.notifyDataSetChanged()
+
+            recyclerView.visibility = View.GONE
+            searchPlaceholder.visibility = View.GONE
+            searchHistory.visibility = if (hasFocus && inputEditText.text.isEmpty() && savedTracks.size > 0) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setListeners() {
@@ -111,10 +153,18 @@ class SearchActivity : AppCompatActivity() {
         }
 
         clearButton.setOnClickListener {
+            recyclerView.visibility = View.GONE
+            searchPlaceholder.visibility = View.GONE
             inputEditText.setText("")
             tracks.clear()
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        }
+
+        clearHistoryButton.setOnClickListener {
+            SearchHistory(this).clearSavedTracks()
+            savedTracks.clear()
+            searchHistory.visibility = View.GONE
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -126,6 +176,8 @@ class SearchActivity : AppCompatActivity() {
                 inputEditText.requestFocus()
                 clearButton.visibility = clearButtonVisibility(s)
                 countValue = inputEditText.text.toString()
+                searchHistory.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true  && savedTracks.size > 0) View.VISIBLE else View.GONE
+                if (inputEditText.hasFocus() && s?.isEmpty() == true && savedTracks.size > 0) searchPlaceholder.visibility = View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -156,6 +208,11 @@ class SearchActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(INPUT_VALUE,"")
             inputEditText.setText(countValue)
+
+            val sharedPrefsTracks = SearchHistory(this).returnSavedTracks()
+            savedTracks.clear()
+            savedTracks.addAll(sharedPrefsTracks)
+            savedTrackAdapter.notifyDataSetChanged()
         }
     }
 
@@ -170,7 +227,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val INPUT_VALUE = "INPUT_VALUE"
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(INPUT_VALUE,countValue)
