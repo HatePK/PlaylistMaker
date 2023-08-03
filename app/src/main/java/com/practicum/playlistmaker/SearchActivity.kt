@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -79,6 +80,12 @@ class SearchActivity : AppCompatActivity() {
     fun addTrackToHistory(track: Track) {
         val searchHistory = SearchHistory(this)
         searchHistory.onListElementClick(track)
+    }
+
+    fun goToMedia(track: Track) {
+        val mediaIntent = Intent(this, MediaActivity::class.java)
+        mediaIntent.putExtra("track", Gson().toJson(track));
+        startActivity(mediaIntent)
     }
 
     private fun setAdapter() {

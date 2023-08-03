@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TrackAdapter(val tracks: ArrayList<Track>, val onListElementClickListener: SearchActivity) : RecyclerView.Adapter<TrackViewHolder>()  {
+class TrackAdapter(private val tracks: ArrayList<Track>, private val onListElementClickListener: SearchActivity) : RecyclerView.Adapter<TrackViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
         return TrackViewHolder(view)
@@ -16,6 +16,7 @@ class TrackAdapter(val tracks: ArrayList<Track>, val onListElementClickListener:
         holder.bind(tracks[position])
 
         holder.itemView.setOnClickListener {
+            onListElementClickListener.goToMedia(tracks[position])
             onListElementClickListener.addTrackToHistory(tracks[position])
         }
     }
