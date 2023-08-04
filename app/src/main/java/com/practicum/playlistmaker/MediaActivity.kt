@@ -14,70 +14,38 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
+import com.practicum.playlistmaker.databinding.ActivityMediaBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Suppress("DEPRECATION")
 class MediaActivity : AppCompatActivity() {
-
-    private lateinit var trackCover: ImageView
-    private lateinit var trackName: TextView
-    private lateinit var trackAuthor: TextView
-    private lateinit var trackDuration: TextView
-    private lateinit var trackAlbum: TextView
-    private lateinit var trackYear: TextView
-    private lateinit var trackGenre: TextView
-    private lateinit var trackCountry: TextView
-    private lateinit var albumGroup: androidx.constraintlayout.widget.Group
-
-    private lateinit var addCollectionButton: ImageButton
-    private lateinit var playButton: ImageButton
-    private lateinit var likeButton: ImageButton
-    private lateinit var timer: TextView
-    private lateinit var backButton: ImageButton
+    private lateinit var binding: ActivityMediaBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_media)
-        val trackJson = intent.getStringExtra("track");
-        val track = trackFromJson(trackJson)
+        binding = ActivityMediaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setViews()
-        addTrackToMedia(track)
+        intent?.let {
+            val track = intent.extras?.getParcelable(CURRENT_TRACK) as Track?
+            addTrackToMedia(track!!, binding)
+        }
 
-        backButton.setOnClickListener {
+        binding.menuButton.setOnClickListener {
             super.onBackPressed()
         }
     }
-    private fun setViews() {
-        backButton = findViewById(R.id.menu_button)
-        trackCover = findViewById(R.id.trackCover)
-        trackName = findViewById(R.id.trackName)
-        trackAuthor = findViewById(R.id.trackAuthor)
-        trackDuration = findViewById(R.id.trackDuration)
-        trackAlbum = findViewById(R.id.trackAlbum)
-        trackYear = findViewById(R.id.trackYear)
-        trackGenre = findViewById(R.id.trackGenre)
-        trackCountry = findViewById(R.id.trackCountry)
-        addCollectionButton = findViewById(R.id.addCollectionButton)
-        playButton = findViewById(R.id.playButton)
-        likeButton = findViewById(R.id.likeButton)
-        timer = findViewById(R.id.timer)
-        albumGroup = findViewById(R.id.albumGroup)
-    }
-
-    private fun addTrackToMedia(track: Track) {
-        val formattedDuration = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis.toInt())
-
-        trackName.text = track.trackName
-        trackAuthor.text = track.artistName
-        trackDuration.text = formattedDuration
-        trackAlbum.text = track.collectionName
-        trackYear.text = track.releaseDate.substring(0, 4)
-        trackGenre.text = track.primaryGenreName
-        trackCountry.text = track.country
+    private fun addTrackToMedia(track: Track, binding: ActivityMediaBinding) {
+        binding.trackName.text = track.trackName
+        binding.trackAuthor.text = track.artistName
+        binding.trackDuration.text = track.getFormattedDuration()
+        binding.trackAlbum.text = track.collectionName
+        binding.trackYear.text = track.releaseDate.substring(0, 4)
+        binding.trackGenre.text = track.primaryGenreName
+        binding.trackCountry.text = track.country
 
         if (track.collectionName == "") {
-            albumGroup.visibility = View.GONE
+            binding.albumGroup.visibility = View.GONE
         }
 
         Glide.with(this)
@@ -85,11 +53,8 @@ class MediaActivity : AppCompatActivity() {
             .placeholder(R.drawable.placeholder)
             .transform(
                 CenterCrop(),
+                RoundedCorners(8)
             )
-            .into(trackCover)
-    }
-    private fun trackFromJson (string: String?) : Track {
-        val gson = Gson()
-        return gson.fromJson(string, Track::class.java)
+            .into(binding.trackCover)
     }
 }

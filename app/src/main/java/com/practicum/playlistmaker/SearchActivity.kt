@@ -24,6 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val SAVED_TRACKS = "saved_tracks"
+const val CURRENT_TRACK = "track"
 class SearchActivity : AppCompatActivity() {
     private var countValue = ""
 
@@ -84,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
 
     fun goToMedia(track: Track) {
         val mediaIntent = Intent(this, MediaActivity::class.java)
-        mediaIntent.putExtra("track", Gson().toJson(track));
+        mediaIntent.putExtra(CURRENT_TRACK, track);
         startActivity(mediaIntent)
     }
 
