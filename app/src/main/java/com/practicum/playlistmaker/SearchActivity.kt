@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val SAVED_TRACKS = "saved_tracks"
+const val CURRENT_TRACK = "track"
 class SearchActivity : AppCompatActivity() {
     private var countValue = ""
 
@@ -79,6 +81,12 @@ class SearchActivity : AppCompatActivity() {
     fun addTrackToHistory(track: Track) {
         val searchHistory = SearchHistory(this)
         searchHistory.onListElementClick(track)
+    }
+
+    fun goToMedia(track: Track) {
+        val mediaIntent = Intent(this, MediaActivity::class.java)
+        mediaIntent.putExtra(CURRENT_TRACK, track);
+        startActivity(mediaIntent)
     }
 
     private fun setAdapter() {
