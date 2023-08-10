@@ -28,14 +28,14 @@ class MediaActivity : AppCompatActivity() {
 
         intent?.let {
             val track = intent.extras?.getParcelable(CURRENT_TRACK) as Track?
-            addTrackToMedia(track!!, binding)
+            addTrackToMedia(track!!)
         }
 
         binding.menuButton.setOnClickListener {
             super.onBackPressed()
         }
     }
-    private fun addTrackToMedia(track: Track, binding: ActivityMediaBinding) {
+    private fun addTrackToMedia(track: Track) {
         binding.trackName.text = track.trackName
         binding.trackAuthor.text = track.artistName
         binding.trackDuration.text = track.getFormattedDuration()
