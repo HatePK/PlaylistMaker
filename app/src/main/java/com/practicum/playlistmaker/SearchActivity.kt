@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -14,6 +16,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -53,6 +56,27 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearButton: Button
     private lateinit var searchHistory: LinearLayout
     private lateinit var clearHistoryButton: Button
+    private lateinit var progressBar: ProgressBar
+
+
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+
+    companion object {
+        private const val INPUT_VALUE = "INPUT_VALUE"
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+
+    private val searchRunnable = Runnable {
+        makeSearch(inputEditText.text.toString())
+    }
+
+    private fun searchDebounce() {
+        searchPlaceholder.visibility = View.GONE
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,25 +108,29 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun goToMedia(track: Track) {
-        val mediaIntent = Intent(this, MediaActivity::class.java)
-        mediaIntent.putExtra(CURRENT_TRACK, track);
-        startActivity(mediaIntent)
+        if (clickDebounce()) {
+            val mediaIntent = Intent(this, MediaActivity::class.java)
+            mediaIntent.putExtra(CURRENT_TRACK, track);
+            startActivity(mediaIntent)
+        }
     }
 
     private fun setAdapter() {
         recyclerView.adapter = trackAdapter
         recyclerViewSavedTracks.adapter = savedTrackAdapter
     }
-
     private fun makeSearch(text: String) {
+        recyclerView.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+
         searchInputForReload = text
         itunesService.search(text).enqueue(object :Callback<TracksResponse> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<TracksResponse>, response: Response<TracksResponse>) {
                 if (response.isSuccessful) {
                     tracks.clear()
+                    progressBar.visibility = View.GONE
                     if (response.body()?.results?.isNotEmpty() == true) {
-                        searchPlaceholder.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         tracks.addAll(response.body()?.results!!)
                         trackAdapter.notifyDataSetChanged()
@@ -114,6 +142,7 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
+                progressBar.visibility = View.GONE
                 showPlaceholder(SearchStatus.NO_INTERNET)
             }
         })
@@ -131,6 +160,7 @@ class SearchActivity : AppCompatActivity() {
         clearButton = findViewById(R.id.search_input_clear_button)
         searchHistory = findViewById(R.id.historyView)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun searchHistory() {
@@ -146,10 +176,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
-            makeSearch(inputEditText.text.toString())
-            true
-        }
+//        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+//            makeSearch(inputEditText.text.toString())
+//            true
+//        }
 
         errorButton.setOnClickListener{
             inputEditText.setText(searchInputForReload)
@@ -181,11 +211,17 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDebounce()
                 inputEditText.requestFocus()
                 clearButton.visibility = clearButtonVisibility(s)
                 countValue = inputEditText.text.toString()
                 searchHistory.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true  && savedTracks.size > 0) View.VISIBLE else View.GONE
-                if (inputEditText.hasFocus() && s?.isEmpty() == true && savedTracks.size > 0) searchPlaceholder.visibility = View.GONE
+                if (inputEditText.hasFocus() && s?.isEmpty() == true && savedTracks.size > 0) {
+                    handler.removeCallbacks(searchRunnable)
+                    searchPlaceholder.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    searchHistory.visibility = View.VISIBLE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -223,7 +259,6 @@ class SearchActivity : AppCompatActivity() {
             savedTrackAdapter.notifyDataSetChanged()
         }
     }
-
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
@@ -231,12 +266,17 @@ class SearchActivity : AppCompatActivity() {
             View.VISIBLE
         }
     }
-
-    companion object {
-        private const val INPUT_VALUE = "INPUT_VALUE"
-    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(INPUT_VALUE,countValue)
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 }
