@@ -1,8 +1,8 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.ui.settings.DARK_THEME_ENABLED
+import com.practicum.playlistmaker.ui.settings.SHARED_PREFERENCES
 
 class App : Application() {
     var darkTheme = false;

@@ -1,12 +1,13 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.data.dto.TrackDto
 
 
-class TrackAdapter(private val tracks: ArrayList<Track>, private val onListElementClickListener: SearchActivity) : RecyclerView.Adapter<TrackViewHolder>()  {
+class TrackAdapter(private val tracks: ArrayList<TrackDto>, private val onListElementClickListener: SearchActivity) : RecyclerView.Adapter<TrackViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
         return TrackViewHolder(view)

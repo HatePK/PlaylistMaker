@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,7 +19,14 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
+import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.data.network.AppleApi
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.data.sharedPrefs.SearchHistory
+import com.practicum.playlistmaker.data.dto.TracksSearchResponse
+import com.practicum.playlistmaker.data.dto.TrackDto
+import com.practicum.playlistmaker.ui.settings.SHARED_PREFERENCES
+import com.practicum.playlistmaker.ui.media.MediaActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,15 +35,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val SAVED_TRACKS = "saved_tracks"
 const val CURRENT_TRACK = "track"
+
 class SearchActivity : AppCompatActivity() {
     private var countValue = ""
 
-    private val tracks = ArrayList<Track>()
-    private val savedTracks = ArrayList<Track>()
+    private val tracks = ArrayList<TrackDto>()
+    private val savedTracks = ArrayList<TrackDto>()
     private val apiBaseUrl = "https://itunes.apple.com"
     private val trackAdapter = TrackAdapter(tracks, this)
     private val savedTrackAdapter = TrackAdapter(savedTracks, this)
     private var searchInputForReload = ""
+    private val tracksInteractor = Creator.provideTracksInteractor()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(apiBaseUrl)
@@ -66,6 +75,11 @@ class SearchActivity : AppCompatActivity() {
         private const val INPUT_VALUE = "INPUT_VALUE"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+
+    enum class SearchStatus {
+        NOTHING_FOUND,
+        NO_INTERNET
     }
 
     private val searchRunnable = Runnable {
@@ -102,12 +116,12 @@ class SearchActivity : AppCompatActivity() {
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
-    fun addTrackToHistory(track: Track) {
+    fun addTrackToHistory(track: TrackDto) {
         val searchHistory = SearchHistory(this)
         searchHistory.onListElementClick(track)
     }
 
-    fun goToMedia(track: Track) {
+    fun goToMedia(track: TrackDto) {
         if (clickDebounce()) {
             val mediaIntent = Intent(this, MediaActivity::class.java)
             mediaIntent.putExtra(CURRENT_TRACK, track);
@@ -124,9 +138,9 @@ class SearchActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         searchInputForReload = text
-        itunesService.search(text).enqueue(object :Callback<TracksResponse> {
+        itunesService.search(text).enqueue(object :Callback<TracksSearchResponse> {
             @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(call: Call<TracksResponse>, response: Response<TracksResponse>) {
+            override fun onResponse(call: Call<TracksSearchResponse>, response: Response<TracksSearchResponse>) {
                 if (response.isSuccessful) {
                     tracks.clear()
                     progressBar.visibility = View.GONE
@@ -141,7 +155,7 @@ class SearchActivity : AppCompatActivity() {
                     showPlaceholder(SearchStatus.NO_INTERNET)
                 }
             }
-            override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TracksSearchResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
                 showPlaceholder(SearchStatus.NO_INTERNET)
             }
