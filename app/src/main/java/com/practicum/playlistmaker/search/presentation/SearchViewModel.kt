@@ -27,7 +27,9 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
         private val savedTracks = searchInteractor.returnSavedTracks()
 
         private val stateLiveData = MutableLiveData<SearchState>()
+        private val savedTracksLiveData = MutableLiveData(savedTracks)
         fun observeState(): LiveData<SearchState> = stateLiveData
+        fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
 
         private fun renderState(state: SearchState) {
             stateLiveData.postValue(state)
@@ -104,11 +106,12 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
 
         fun addTrackToHistory(track: Track) {
             searchInteractor.addTrackToHistory(track)
-            savedTracks.clear()
-
             val sharedPrefsTracks = searchInteractor.returnSavedTracks()
+
+            savedTracks.clear()
             savedTracks.addAll(sharedPrefsTracks)
-            stateLiveData.value = SearchState.SearchContent(tracks)
+
+            savedTracksLiveData.postValue(sharedPrefsTracks)
         }
 
         companion object {

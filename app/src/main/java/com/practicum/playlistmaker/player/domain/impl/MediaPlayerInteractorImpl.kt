@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.player.domain.impl
 
 import com.practicum.playlistmaker.player.domain.MediaPlayerInteractor
-import com.practicum.playlistmaker.player.data.MediaPlayerRepository
+import com.practicum.playlistmaker.player.domain.MediaPlayerRepository
 
 class MediaPlayerInteractorImpl(private val mediaPlayerRepository: MediaPlayerRepository):
     MediaPlayerInteractor {

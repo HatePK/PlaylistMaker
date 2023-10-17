@@ -39,6 +39,8 @@ class SharedPreferencesLocalClient (private val sharedPreferences: SharedPrefere
         }
     }
     override fun returnSavedTracks():ArrayList<Track> {
+        val sharedPrefsTracks = sharedPreferences.getString(SAVED_TRACKS,  null)
+
         return if (sharedPrefsTracks != null) {
             createTrackListFromJson(sharedPrefsTracks)
         } else ArrayList()

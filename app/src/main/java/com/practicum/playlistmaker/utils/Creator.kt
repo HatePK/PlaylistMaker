@@ -6,11 +6,11 @@ import com.practicum.playlistmaker.search.data.impl.SearchRepositoryImpl
 import com.practicum.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.player.domain.MediaPlayerInteractor
 import com.practicum.playlistmaker.search.domain.SearchInteractor
-import com.practicum.playlistmaker.search.data.SearchRepository
+import com.practicum.playlistmaker.search.domain.SearchRepository
 import com.practicum.playlistmaker.player.domain.impl.MediaPlayerInteractorImpl
 import com.practicum.playlistmaker.search.data.localStorage.SharedPreferencesLocalClient
 import com.practicum.playlistmaker.search.domain.impl.SearchInteractorImpl
-import com.practicum.playlistmaker.settings.data.SettingsRepository
+import com.practicum.playlistmaker.settings.domain.SettingsRepository
 import com.practicum.playlistmaker.settings.data.impl.SettingsRepositoryImpl
 import com.practicum.playlistmaker.sharing.data.ExternalNavigator
 import com.practicum.playlistmaker.sharing.data.impl.ExternalNavigationImpl

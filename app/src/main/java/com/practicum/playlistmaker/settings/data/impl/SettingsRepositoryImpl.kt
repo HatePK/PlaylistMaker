@@ -2,7 +2,7 @@ package com.practicum.playlistmaker.settings.data.impl
 
 import android.content.SharedPreferences
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.settings.data.SettingsRepository
+import com.practicum.playlistmaker.settings.domain.SettingsRepository
 import com.practicum.playlistmaker.settings.domain.model.ThemeSettings
 
 const val DARK_THEME_ENABLED = "false"

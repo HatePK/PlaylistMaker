@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
@@ -27,7 +28,7 @@ import com.practicum.playlistmaker.search.presentation.SearchViewModel
 
 const val CURRENT_TRACK = "track"
 
-class SearchActivity : ComponentActivity() {
+class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
@@ -80,8 +81,15 @@ class SearchActivity : ComponentActivity() {
         searchHistory()
 
         viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
+
         viewModel.observeState().observe(this) {
             render(it)
+        }
+
+        viewModel.getSavedTracksLiveData().observe(this) {
+            savedTrackAdapter.tracks.clear()
+            savedTrackAdapter.tracks.addAll(it)
+            savedTrackAdapter.notifyDataSetChanged()
         }
     }
 

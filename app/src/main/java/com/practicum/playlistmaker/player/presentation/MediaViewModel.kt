@@ -21,9 +21,6 @@ class MediaViewModel(
     private val _state = MutableLiveData<MediaState>()
     val state: LiveData<MediaState> = _state
 
-    private val debounceDelay = 500L
-    var timer = "00:00"
-
     private val timerLiveData = MutableLiveData(timer)
 
     fun getTimerLiveData(): LiveData<String> = timerLiveData
@@ -82,6 +79,8 @@ class MediaViewModel(
     }
 
     companion object {
+        private const val debounceDelay = 500L
+        private var timer = "00:00"
         fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 MediaViewModel(

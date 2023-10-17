@@ -5,10 +5,11 @@ import com.practicum.playlistmaker.search.data.LocalClient
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.dto.TracksSearchRequest
 import com.practicum.playlistmaker.search.data.dto.TracksSearchResponse
-import com.practicum.playlistmaker.search.data.SearchRepository
+import com.practicum.playlistmaker.search.domain.SearchRepository
 import com.practicum.playlistmaker.search.domain.entity.Track
 
-class SearchRepositoryImpl(private val networkClient: NetworkClient, private val localClient: LocalClient): SearchRepository {
+class SearchRepositoryImpl(private val networkClient: NetworkClient, private val localClient: LocalClient):
+    SearchRepository {
     override fun searchTracks(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
 
