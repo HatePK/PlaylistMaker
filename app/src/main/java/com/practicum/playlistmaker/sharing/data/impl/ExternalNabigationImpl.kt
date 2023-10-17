@@ -3,7 +3,7 @@ package com.practicum.playlistmaker.sharing.data.impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.practicum.playlistmaker.sharing.data.ExternalNavigator
+import com.practicum.playlistmaker.sharing.domain.ExternalNavigator
 import com.practicum.playlistmaker.sharing.domain.model.EmailData
 
 class ExternalNavigationImpl(private val context: Context): ExternalNavigator {

@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.sharing.data
+package com.practicum.playlistmaker.sharing.domain
 
 import com.practicum.playlistmaker.sharing.domain.model.EmailData
 
