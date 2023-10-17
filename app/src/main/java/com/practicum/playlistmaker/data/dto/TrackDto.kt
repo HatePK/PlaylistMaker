@@ -1,11 +1,11 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.data.dto
 
 import android.os.Parcel
 import android.os.Parcelable
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-data class Track(
+data class TrackDto(
     val trackId: String,
     val trackName: String,
     val artistName: String,
@@ -17,6 +17,8 @@ data class Track(
     val country: String,
     val previewUrl: String
 ) : Parcelable {
+    fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
+    fun getFormattedDuration() = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis.toInt())
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -28,11 +30,8 @@ data class Track(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString()
-    ) {
-    }
+    )
 
-    fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
-    fun getFormattedDuration() = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis.toInt())
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(trackId)
         parcel.writeString(trackName)
@@ -51,14 +50,17 @@ data class Track(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Track> {
-        override fun createFromParcel(parcel: Parcel): Track {
-            return Track(parcel)
+    companion object CREATOR : Parcelable.Creator<TrackDto> {
+        override fun createFromParcel(parcel: Parcel): TrackDto {
+            return TrackDto(parcel)
         }
 
-        override fun newArray(size: Int): Array<Track?> {
+        override fun newArray(size: Int): Array<TrackDto?> {
             return arrayOfNulls(size)
         }
     }
-
 }
+
+
+
+

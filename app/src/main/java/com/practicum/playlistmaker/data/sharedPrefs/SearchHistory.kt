@@ -1,12 +1,13 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.data.sharedPrefs
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
+import com.practicum.playlistmaker.data.dto.TrackDto
+import com.practicum.playlistmaker.ui.search.SAVED_TRACKS
+import com.practicum.playlistmaker.ui.settings.SHARED_PREFERENCES
 
 
 class SearchHistory (context: Context) {
@@ -14,10 +15,11 @@ class SearchHistory (context: Context) {
         const val SAVED_TRACKS_MAX = 10
     }
 
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+        SHARED_PREFERENCES, MODE_PRIVATE)
     private val sharedPrefsTracks = sharedPreferences.getString(SAVED_TRACKS, null)
 
-    fun onListElementClick(item: Track) {
+    fun onListElementClick(item: TrackDto) {
         if (sharedPrefsTracks != null) {
             val tracksArray = createTrackListFromJson(sharedPrefsTracks)
             val doesTrackExist = doesTrackExist(item, tracksArray)
@@ -34,14 +36,14 @@ class SearchHistory (context: Context) {
                 .putString(SAVED_TRACKS, createJsonFromTrackList(tracksArray))
                 .apply()
         } else {
-            val tracksArray: ArrayList<Track> = arrayListOf(item)
+            val tracksArray: ArrayList<TrackDto> = arrayListOf(item)
             sharedPreferences.edit()
                 .putString(SAVED_TRACKS, createJsonFromTrackList(tracksArray))
                 .apply()
         }
     }
 
-    private fun doesTrackExist (newTrack: Track, trackList: ArrayList<Track>) : Boolean {
+    private fun doesTrackExist (newTrack: TrackDto, trackList: ArrayList<TrackDto>) : Boolean {
         for (track in trackList ) {
             if (track.trackId == newTrack.trackId) {
                 return true
@@ -50,7 +52,7 @@ class SearchHistory (context: Context) {
         return false
     }
 
-    fun returnSavedTracks():ArrayList<Track> {
+    fun returnSavedTracks():ArrayList<TrackDto> {
         return if (sharedPrefsTracks != null) {
             createTrackListFromJson(sharedPrefsTracks)
         } else ArrayList()
@@ -62,13 +64,13 @@ class SearchHistory (context: Context) {
             .apply()
     }
 
-    private fun createJsonFromTrackList(tracks: ArrayList<Track>): String {
+    private fun createJsonFromTrackList(tracks: ArrayList<TrackDto>): String {
         return Gson().toJson(tracks)
     }
 
-    private fun createTrackListFromJson(json: String?): ArrayList<Track> {
+    private fun createTrackListFromJson(json: String?): ArrayList<TrackDto> {
             val gson = Gson()
-            val itemType = object : TypeToken<ArrayList<Track>>() {}.type
+            val itemType = object : TypeToken<ArrayList<TrackDto>>() {}.type
             return gson.fromJson(json, itemType)
     }
 

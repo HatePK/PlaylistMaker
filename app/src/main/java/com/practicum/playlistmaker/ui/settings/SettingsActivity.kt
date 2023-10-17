@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.presentation.App
 
 const val SHARED_PREFERENCES = "playlist_maker_preferences"
 const val DARK_THEME_ENABLED = "false"
