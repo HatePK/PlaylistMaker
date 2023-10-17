@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityMediaBinding
 import com.practicum.playlistmaker.player.presentation.MediaState
-import com.practicum.playlistmaker.player.presentation.TrackViewModel
+import com.practicum.playlistmaker.player.presentation.MediaViewModel
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.ui.CURRENT_TRACK
 
@@ -21,7 +21,7 @@ class MediaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMediaBinding
     private lateinit var play: ImageButton
     private lateinit var timer: TextView
-    private lateinit var viewModel: TrackViewModel
+    private lateinit var viewModel: MediaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class MediaActivity : AppCompatActivity() {
 
         intent?.let {
             val track = intent.extras?.getSerializable(CURRENT_TRACK) as Track
-            viewModel = ViewModelProvider(this, TrackViewModel.getViewModelFactory(track))[TrackViewModel::class.java]
+            viewModel = ViewModelProvider(this, MediaViewModel.getViewModelFactory(track))[MediaViewModel::class.java]
 
             preparePlayer(track)
         }

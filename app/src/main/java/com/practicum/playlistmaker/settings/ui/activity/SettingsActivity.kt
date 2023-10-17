@@ -1,8 +1,6 @@
 package com.practicum.playlistmaker.settings.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,8 +8,6 @@ import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.player.presentation.TrackViewModel
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
 
 const val SHARED_PREFERENCES = "playlist_maker_preferences"
