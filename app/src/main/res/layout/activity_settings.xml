@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.settings.SettingsActivity">
+    tools:context=".settings.ui.activity.SettingsActivity">
 
     <LinearLayout style="@style/HeaderContainer">
         <Button
