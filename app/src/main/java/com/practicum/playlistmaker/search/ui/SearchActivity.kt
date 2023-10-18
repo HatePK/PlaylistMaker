@@ -25,6 +25,7 @@ import com.practicum.playlistmaker.player.ui.MediaActivity
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.presentation.SearchState
 import com.practicum.playlistmaker.search.presentation.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val CURRENT_TRACK = "track"
 
@@ -70,7 +71,7 @@ class SearchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var textWatcher: TextWatcher? = null
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModel<SearchViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -79,8 +80,6 @@ class SearchActivity : AppCompatActivity() {
         setAdapter()
         setListeners()
         searchHistory()
-
-        viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
 
         viewModel.observeState().observe(this) {
             render(it)

@@ -15,13 +15,14 @@ import com.practicum.playlistmaker.player.presentation.MediaState
 import com.practicum.playlistmaker.player.presentation.MediaViewModel
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.ui.CURRENT_TRACK
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 @Suppress("DEPRECATION")
 class MediaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMediaBinding
     private lateinit var play: ImageButton
     private lateinit var timer: TextView
-    private lateinit var viewModel: MediaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +35,25 @@ class MediaActivity : AppCompatActivity() {
 
         intent?.let {
             val track = intent.extras?.getSerializable(CURRENT_TRACK) as Track
-            viewModel = ViewModelProvider(this, MediaViewModel.getViewModelFactory(track))[MediaViewModel::class.java]
+            val viewModel by viewModel<MediaViewModel> { parametersOf(track) }
 
             preparePlayer(track)
-        }
 
-        viewModel.state.observe(this) { state ->
-            render(state)
-        }
+            viewModel.state.observe(this) { state ->
+                render(state)
+            }
 
-        viewModel.getTimerLiveData().observe(this) { timer ->
-            changeTimer(timer)
-        }
+            viewModel.getTimerLiveData().observe(this) { timer ->
+                changeTimer(timer)
+            }
 
-        binding.menuButton.setOnClickListener {
-            super.onBackPressed()
-        }
+            binding.menuButton.setOnClickListener {
+                super.onBackPressed()
+            }
 
-        play.setOnClickListener {
-            viewModel.playbackControl()
+            play.setOnClickListener {
+                viewModel.playbackControl()
+            }
         }
     }
 

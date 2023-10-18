@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SHARED_PREFERENCES = "playlist_maker_preferences"
 const val DARK_THEME_ENABLED = "false"
@@ -21,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val viewModel = ViewModelProvider(this, SettingsViewModel.getViewModelFactory())[SettingsViewModel::class.java]
+        val viewModel by viewModel<SettingsViewModel>()
 
         viewModel.getThemeLiveData().observe(this) { isChecked ->
             changeSwitcher(isChecked)

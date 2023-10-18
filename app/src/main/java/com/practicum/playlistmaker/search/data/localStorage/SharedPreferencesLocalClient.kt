@@ -7,7 +7,7 @@ import com.practicum.playlistmaker.search.data.LocalClient
 import com.practicum.playlistmaker.search.domain.entity.Track
 
 
-class SharedPreferencesLocalClient (private val sharedPreferences: SharedPreferences): LocalClient {
+class SharedPreferencesLocalClient (private val sharedPreferences: SharedPreferences, private val gson: Gson): LocalClient {
     companion object {
         const val SAVED_TRACKS_MAX = 10
         const val SAVED_TRACKS = "saved_tracks"
@@ -61,11 +61,10 @@ class SharedPreferencesLocalClient (private val sharedPreferences: SharedPrefere
     }
 
     private fun createJsonFromTrackList(tracks: ArrayList<Track>): String {
-        return Gson().toJson(tracks)
+        return gson.toJson(tracks)
     }
 
     private fun createTrackListFromJson(json: String?): ArrayList<Track> {
-            val gson = Gson()
             val itemType = object : TypeToken<ArrayList<Track>>() {}.type
             return gson.fromJson(json, itemType)
     }
