@@ -5,12 +5,8 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.player.domain.MediaPlayerInteractor
 import com.practicum.playlistmaker.search.domain.entity.Track
-import com.practicum.playlistmaker.utils.Creator
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -44,6 +40,7 @@ class MediaViewModel(
     }
 
     override fun onCleared() {
+        timer = "00:00"
         mediaPlayerInteractor.release()
         handler.removeCallbacksAndMessages(null)
     }
@@ -81,13 +78,5 @@ class MediaViewModel(
     companion object {
         private const val debounceDelay = 500L
         private var timer = "00:00"
-        fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MediaViewModel(
-                    track,
-                    Creator.provideMediaPlayerInteractor()
-                )
-            }
-        }
     }
 }

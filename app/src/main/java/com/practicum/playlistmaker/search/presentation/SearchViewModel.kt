@@ -8,18 +8,11 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmaker.utils.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.search.domain.SearchInteractor
 import com.practicum.playlistmaker.search.domain.entity.Track
 
-class SearchViewModel (application: Application) : AndroidViewModel(application) {
-
-        private val searchInteractor = Creator.provideTracksInteractor(getApplication())
+class SearchViewModel (application: Application, private val searchInteractor: SearchInteractor) : AndroidViewModel(application) {
 
         private val handler = Handler(Looper.getMainLooper())
 
@@ -117,11 +110,5 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
         companion object {
             private const val SEARCH_DEBOUNCE_DELAY = 2000L
             private val SEARCH_REQUEST_TOKEN = Any()
-
-            fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-                initializer {
-                    SearchViewModel(this[APPLICATION_KEY] as Application)
-                }
-            }
         }
 }
