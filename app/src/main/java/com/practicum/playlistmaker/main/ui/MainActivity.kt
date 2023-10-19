@@ -20,11 +20,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(searchIntent)
         }
 
-        val media = findViewById<Button>(R.id.media_button)
-        media.setOnClickListener {
-            val mediaIntent = Intent(this, MediaActivity::class.java)
-            startActivity(mediaIntent)
-        }
+//        val media = findViewById<Button>(R.id.media_button)
+////        media.setOnClickListener {
+////            val mediaIntent = Intent(this, MediaActivity::class.java)
+////            startActivity(mediaIntent)
+////        }
 
         val settings = findViewById<Button>(R.id.settings_button)
         settings.setOnClickListener {

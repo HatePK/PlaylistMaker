@@ -12,10 +12,9 @@ class SharedPreferencesLocalClient (private val sharedPreferences: SharedPrefere
         const val SAVED_TRACKS_MAX = 10
         const val SAVED_TRACKS = "saved_tracks"
     }
-
-    private val sharedPrefsTracks = sharedPreferences.getString(SAVED_TRACKS,  null)
-
     override fun addTrackToLocalClient(item: Track) {
+        val sharedPrefsTracks = sharedPreferences.getString(SAVED_TRACKS,  null)
+
         if (sharedPrefsTracks != null) {
             val tracksArray = createTrackListFromJson(sharedPrefsTracks)
             val doesTrackExist = doesTrackExist(item, tracksArray)

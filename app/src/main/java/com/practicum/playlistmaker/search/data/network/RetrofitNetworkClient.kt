@@ -10,14 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitNetworkClient(private val context: Context, private val itunesService: AppleApi): NetworkClient {
-    private val apiBaseUrl = "https://itunes.apple.com"
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(apiBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-
 
     override fun doRequest(dto: Any): Response {
         if (!isConnected()) {
