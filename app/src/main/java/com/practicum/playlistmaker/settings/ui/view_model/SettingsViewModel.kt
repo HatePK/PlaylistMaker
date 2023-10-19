@@ -1,10 +1,7 @@
 package com.practicum.playlistmaker.settings.ui.view_model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.settings.domain.SettingsRepository
-import com.practicum.playlistmaker.settings.domain.model.ThemeSettings
 import com.practicum.playlistmaker.sharing.domain.SharingInteractor
 
 class SettingsViewModel(
@@ -12,14 +9,10 @@ class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
 ): ViewModel() {
 
-    var currentThemeStatus = settingsRepository.getThemeSettings().isDarkThemeEnabled
-    private val currentThemeStatusLiveData = MutableLiveData(currentThemeStatus)
-
-    fun getThemeLiveData(): LiveData<Boolean> = currentThemeStatusLiveData
+    var currentThemeStatus = settingsRepository.getThemeSettings()
 
     fun switchTheme(isChecked: Boolean) {
-        settingsRepository.updateThemeSettings(ThemeSettings(isChecked))
-        currentThemeStatus = settingsRepository.getThemeSettings().isDarkThemeEnabled
+        settingsRepository.updateThemeSettings(isChecked)
     }
 
     fun share(){

@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.search.di
 
 import android.content.Context
 import com.google.gson.Gson
+import com.practicum.playlistmaker.SHARED_PREFERENCES
 import com.practicum.playlistmaker.search.data.LocalClient
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.localStorage.SharedPreferencesLocalClient
@@ -12,11 +13,13 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+const val APPLE_API_URL = "https://itunes.apple.com"
+
 val dataModule = module {
 
     single<AppleApi> {
         Retrofit.Builder()
-            .baseUrl("https://itunes.apple.com")
+            .baseUrl(APPLE_API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AppleApi::class.java)
@@ -24,7 +27,7 @@ val dataModule = module {
 
     single {
         androidContext()
-            .getSharedPreferences("local_storage", Context.MODE_PRIVATE)
+            .getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     factory { Gson() }

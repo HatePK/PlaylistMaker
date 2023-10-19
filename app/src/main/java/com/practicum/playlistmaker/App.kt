@@ -1,4 +1,5 @@
 package com.practicum.playlistmaker
+
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.practicum.playlistmaker.player.di.playInteractorModule
@@ -10,12 +11,13 @@ import com.practicum.playlistmaker.search.di.repositoryModule
 import com.practicum.playlistmaker.search.di.viewModelModule
 import com.practicum.playlistmaker.settings.di.settingsRepositoryModule
 import com.practicum.playlistmaker.settings.di.settingsViewModelModule
-import com.practicum.playlistmaker.settings.ui.activity.DARK_THEME_ENABLED
-import com.practicum.playlistmaker.settings.ui.activity.SHARED_PREFERENCES
 import com.practicum.playlistmaker.sharing.di.sharingDataModule
 import com.practicum.playlistmaker.sharing.di.sharingInteractorModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+
+const val SHARED_PREFERENCES = "local_storage"
+const val DARK_THEME_ENABLED = "false"
 
 class App : Application() {
     var darkTheme = false;

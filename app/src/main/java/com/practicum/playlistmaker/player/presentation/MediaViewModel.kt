@@ -40,6 +40,7 @@ class MediaViewModel(
     }
 
     override fun onCleared() {
+        timer = "00:00"
         mediaPlayerInteractor.release()
         handler.removeCallbacksAndMessages(null)
     }

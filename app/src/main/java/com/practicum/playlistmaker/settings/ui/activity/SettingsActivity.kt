@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val SHARED_PREFERENCES = "playlist_maker_preferences"
-const val DARK_THEME_ENABLED = "false"
 @Suppress("DEPRECATION")
 class SettingsActivity : AppCompatActivity() {
 
@@ -23,10 +20,6 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val viewModel by viewModel<SettingsViewModel>()
-
-        viewModel.getThemeLiveData().observe(this) { isChecked ->
-            changeSwitcher(isChecked)
-        }
 
         val back = findViewById<Button>(R.id.back_button)
         back.setOnClickListener {
@@ -54,9 +47,5 @@ class SettingsActivity : AppCompatActivity() {
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             viewModel.switchTheme(isChecked)
         }
-    }
-
-    private fun changeSwitcher(isChecked: Boolean) {
-        themeSwitcher.isChecked = isChecked
     }
 }
