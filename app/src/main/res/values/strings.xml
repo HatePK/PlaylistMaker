@@ -22,4 +22,15 @@
     <string name="switch_text">Темная тема</string>
     <string name="search_history_header">Вы искали</string>
     <string name="search_history_clear_button_text">Очистить историю</string>
+
+    <string name="favourites_text_placeholder">Ваша медиатека пуста</string>
+
+    <string name="playlists_new_playlist_button_text">Новый плейлист</string>
+    <string name="playlists_text_placeholder">Вы не создали \n ни одного плейлиста</string>
+
+    <string name="library_tab_name_favourites">Избранные треки</string>
+    <string name="library_tab_name_playlists">Плейлисты</string>
+
+
+
 </resources>
