@@ -208,7 +208,7 @@
         <item name="android:textColor">@color/black_text_color</item>
     </style>
 
-    <style name="tab_layout">
+    <style name="library_tab_layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/tab_layout_height</item>
         <item name="tabIndicatorColor">@color/black_text_color</item>
@@ -218,7 +218,7 @@
         <item name="tabIndicatorFullWidth">false</item>
     </style>
 
-    <style name="view_pager">
+    <style name="library_view_pager">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>

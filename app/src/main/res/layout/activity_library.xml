@@ -21,11 +21,11 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/tab_layout"
+        style="@style/library_tab_layout"
         />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        style="@style/view_pager"
+        style="@style/library_view_pager"
         />
 </LinearLayout>

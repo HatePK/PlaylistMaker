@@ -11,12 +11,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavouritesFragment: Fragment() {
 
-    companion object {
-        fun newInstance(): FavouritesFragment {
-            return FavouritesFragment()
-        }
-    }
-
     private val favouritesViewModel by viewModel<FavouritesViewModel>()
 
     private lateinit var binding: FragmentFavouritesBinding
@@ -28,5 +22,11 @@ class FavouritesFragment: Fragment() {
     ): View? {
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    companion object {
+        fun newInstance(): FavouritesFragment {
+            return FavouritesFragment()
+        }
     }
 }
