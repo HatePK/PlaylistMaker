@@ -221,7 +221,5 @@
     <style name="view_pager">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:backgroundTint">@color/white</item>
     </style>
 </resources>
