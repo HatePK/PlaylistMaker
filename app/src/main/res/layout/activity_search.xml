@@ -91,7 +91,7 @@
                 />
             <Button
                 android:id="@+id/errorButton"
-                style="@style/ErrorButton"
+                style="@style/BlackButton"
                 android:text="@string/reload"
                 />
         </LinearLayout>
@@ -120,7 +120,7 @@
 
             <Button
                 android:id="@+id/clearHistoryButton"
-                style="@style/ErrorButton"
+                style="@style/BlackButton"
                 android:text="@string/search_history_clear_button_text" />
         </LinearLayout>
     </FrameLayout>

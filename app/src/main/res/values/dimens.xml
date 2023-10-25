@@ -57,4 +57,16 @@
     <dimen name="media_info_header_padding_bottom">8dp</dimen>
     <dimen name="media_info_font_size">13sp</dimen>
 
+    <dimen name="playlists_placeholder_image_margin_top">106dp</dimen>
+    <dimen name="playlists_placeholder_message_margin_top">16dp</dimen>
+
+    <dimen name="favourites_placeholder_image_margin_top">106dp</dimen>
+    <dimen name="favourites_placeholder_message_margin_top">16dp</dimen>
+
+    <dimen name="tab_layout_height">48dp</dimen>
+    <dimen name="tab_layout_indicator_height">2dp</dimen>
+
+
+
+
 </resources>

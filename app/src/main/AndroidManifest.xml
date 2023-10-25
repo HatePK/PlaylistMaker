@@ -22,8 +22,14 @@
             android:exported="false"
             android:theme="@style/SecondaryMenu.Theme.PlaylistMaker"/>
         <activity
+            android:name=".library.ui.LibraryActivity"
+            android:exported="false"
+            android:theme="@style/SecondaryMenu.Theme.PlaylistMaker"/>
+        <activity
             android:name=".player.ui.MediaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SecondaryMenu.Theme.PlaylistMaker"
+            />
         <activity
             android:name=".settings.ui.activity.SettingsActivity"
             android:exported="false"
