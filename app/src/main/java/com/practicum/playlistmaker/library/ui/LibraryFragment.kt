@@ -13,8 +13,6 @@ class LibraryFragment: Fragment() {
 
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var tabMediator: TabLayoutMediator
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,8 +32,8 @@ class LibraryFragment: Fragment() {
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, position ->
             when (position) {
-                0 -> tab.text = resources.getString(R.string.library_tab_name_favourites)
-                1 -> tab.text = resources.getString(R.string.library_tab_name_playlists)
+                FIRST_POSITION -> tab.text = resources.getString(R.string.library_tab_name_favourites)
+                SECOND_POSITION -> tab.text = resources.getString(R.string.library_tab_name_playlists)
             }
         }
 
@@ -45,5 +43,10 @@ class LibraryFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         tabMediator.detach()
+    }
+
+    companion object {
+        private const val FIRST_POSITION = 0
+        private const val SECOND_POSITION = 1
     }
 }

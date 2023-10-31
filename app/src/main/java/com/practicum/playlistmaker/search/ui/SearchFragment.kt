@@ -31,10 +31,6 @@ const val CURRENT_TRACK = "track"
 
 class SearchFragment:Fragment() {
 
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
-    }
-
     private var countValue = ""
     private var searchInputForReload = ""
 
@@ -109,7 +105,7 @@ class SearchFragment:Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
         }
         return current
     }
@@ -162,8 +158,8 @@ class SearchFragment:Fragment() {
                 clearButton.visibility = clearButtonVisibility(s)
 
                 if (s.isNullOrEmpty()) {
-                    viewModel.showHistoryTracks()
                     viewModel.clearTracks()
+                    viewModel.showHistoryTracks()
                 } else {
                     searchPlaceholder.visibility = View.GONE
                     searchHistory.visibility = View.GONE
@@ -267,5 +263,9 @@ class SearchFragment:Fragment() {
             is SearchState.Error -> showError(state.errorMessage)
             is SearchState.Empty -> showEmpty(state.message)
         }
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }
