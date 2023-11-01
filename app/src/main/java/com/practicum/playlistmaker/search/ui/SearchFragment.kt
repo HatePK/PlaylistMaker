@@ -98,9 +98,10 @@ class SearchFragment:Fragment() {
         }
     }
 
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        textWatcher?.let { inputEditText.removeTextChangedListener(it) }
+    }
     private fun clickDebounce() : Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
