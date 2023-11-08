@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="header_text_size">22sp</dimen>
+    <dimen name="header_margin_start">16dp</dimen>
     <dimen name="button_icon_padding">8dp</dimen>
     <dimen name="zero_dp_value">0dp</dimen>
     <dimen name="zero_letter_space">0</dimen>
