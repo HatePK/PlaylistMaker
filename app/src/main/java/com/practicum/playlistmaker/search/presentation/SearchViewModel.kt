@@ -27,11 +27,6 @@ class SearchViewModel (application: Application, private val searchInteractor: S
         private fun renderState(state: SearchState) {
             stateLiveData.postValue(state)
         }
-
-        init {
-            renderState(SearchState.SavedContent(savedTracks))
-        }
-
         fun searchDebounce(changedText: String) {
             handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
 
