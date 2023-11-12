@@ -15,6 +15,13 @@ class MediaPlayerInteractorImpl(private val mediaPlayerRepository: MediaPlayerRe
 
     private var playerState = STATE_DEFAULT
 
+    override fun setOnCompletionListener(onCompletionListener: () -> Unit) {
+        mediaPlayerRepository.setOnCompletionListener {
+            onCompletionListener()
+            playerState = STATE_PREPARED
+        }
+    }
+
     override fun preparePlayer(
         dataSource: String,
         onPreparedPlayer: () -> Unit,
@@ -22,10 +29,12 @@ class MediaPlayerInteractorImpl(private val mediaPlayerRepository: MediaPlayerRe
     ) {
         mediaPlayerRepository.setDataSource(dataSource)
         mediaPlayerRepository.prepareAsync()
+
         mediaPlayerRepository.setOnPreparedListener {
             onPreparedPlayer()
             playerState = STATE_PREPARED
         }
+
         mediaPlayerRepository.setOnCompletionListener {
             onCompletionPlayer()
             playerState = STATE_PREPARED
@@ -61,5 +70,9 @@ class MediaPlayerInteractorImpl(private val mediaPlayerRepository: MediaPlayerRe
 
     override fun currentPosition(): Int {
         return mediaPlayerRepository.currentPosition()
+    }
+
+    override fun isPlaying(): Boolean {
+        return mediaPlayerRepository.isPlaying()
     }
 }

@@ -5,23 +5,22 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityMediaBinding
-import com.practicum.playlistmaker.player.presentation.MediaState
-import com.practicum.playlistmaker.player.presentation.MediaViewModel
+import com.practicum.playlistmaker.player.presentation.PlayerState
+import com.practicum.playlistmaker.player.presentation.PlayerViewModel
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.ui.CURRENT_TRACK
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 @Suppress("DEPRECATION")
-class MediaActivity : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMediaBinding
-    private lateinit var play: ImageButton
+    private lateinit var playButton: ImageButton
     private lateinit var timer: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,51 +29,37 @@ class MediaActivity : AppCompatActivity() {
         binding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        play = findViewById(R.id.playButton)
+        playButton = findViewById(R.id.playButton)
         timer = findViewById(R.id.timer)
 
         intent?.let {
             val track = intent.extras?.getSerializable(CURRENT_TRACK) as Track
-            val viewModel by viewModel<MediaViewModel> { parametersOf(track) }
+            val viewModel by viewModel<PlayerViewModel> { parametersOf(track) }
 
             preparePlayer(track)
 
-            viewModel.state.observe(this) { state ->
-                render(state)
-            }
+            viewModel.observePlayerState.observe(this) {
+                playButton.isEnabled = it.isPlayButtonEnabled
+                timer.text = it.progress
 
-            viewModel.getTimerLiveData().observe(this) { timer ->
-                changeTimer(timer)
+                playButton.setImageResource(playButtonImage(it.isPlaying))
             }
 
             binding.menuButton.setOnClickListener {
                 super.onBackPressed()
             }
 
-            play.setOnClickListener {
+            playButton.setOnClickListener {
                 viewModel.playbackControl()
             }
         }
     }
-
-    private fun render(state: MediaState) {
-        when (state) {
-            is MediaState.Prepared -> preparePlayer(state.data)
-            is MediaState.Playing -> showPlaying()
-            is MediaState.Paused -> showPause()
+    private fun playButtonImage(isPlaying: Boolean): Int {
+        return if (isPlaying) {
+             R.drawable.pause_button
+        } else {
+            R.drawable.play_button
         }
-    }
-
-    private fun changeTimer(timer: String) {
-        binding.timer.text = timer
-    }
-
-    private fun showPlaying() {
-        play.setImageResource(R.drawable.pause_button)
-    }
-
-    private fun showPause() {
-        play.setImageResource(R.drawable.play_button)
     }
     private fun preparePlayer(track: Track) {
         binding.trackName.text = track.trackName
@@ -84,7 +69,7 @@ class MediaActivity : AppCompatActivity() {
         binding.trackYear.text = track.releaseDate.substring(0, 4)
         binding.trackGenre.text = track.primaryGenreName
         binding.trackCountry.text = track.country
-        play.setImageResource(R.drawable.play_button)
+        playButton.setImageResource(R.drawable.play_button)
 
         if (track.collectionName == "") {
             binding.albumGroup.visibility = View.GONE

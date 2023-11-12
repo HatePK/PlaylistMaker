@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".player.ui.MediaActivity"
+            android:name=".player.ui.PlayerActivity"
             android:exported="false" >
         </activity>
     </application>
