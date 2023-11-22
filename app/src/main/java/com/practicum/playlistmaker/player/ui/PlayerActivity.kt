@@ -19,7 +19,7 @@ import org.koin.core.parameter.parametersOf
 
 @Suppress("DEPRECATION")
 class PlayerActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMediaBinding
+    private var binding: ActivityMediaBinding? = null
     private lateinit var playButton: ImageButton
     private lateinit var timer: TextView
 
@@ -27,7 +27,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMediaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
 
         playButton = findViewById(R.id.playButton)
         timer = findViewById(R.id.timer)
@@ -45,7 +45,7 @@ class PlayerActivity : AppCompatActivity() {
                 playButton.setImageResource(playButtonImage(it.isPlaying))
             }
 
-            binding.menuButton.setOnClickListener {
+            binding?.menuButton?.setOnClickListener {
                 super.onBackPressed()
             }
 
@@ -62,17 +62,17 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
     private fun preparePlayer(track: Track) {
-        binding.trackName.text = track.trackName
-        binding.trackAuthor.text = track.artistName
-        binding.trackDuration.text = track.trackTime
-        binding.trackAlbum.text = track.collectionName
-        binding.trackYear.text = track.releaseDate.substring(0, 4)
-        binding.trackGenre.text = track.primaryGenreName
-        binding.trackCountry.text = track.country
+        binding?.trackName?.text = track.trackName
+        binding?.trackAuthor?.text = track.artistName
+        binding?.trackDuration?.text = track.trackTime
+        binding?.trackAlbum?.text = track.collectionName
+        binding?.trackYear?.text = track.releaseDate.substring(0, 4)
+        binding?.trackGenre?.text = track.primaryGenreName
+        binding?.trackCountry?.text = track.country
         playButton.setImageResource(R.drawable.play_button)
 
         if (track.collectionName == "") {
-            binding.albumGroup.visibility = View.GONE
+            binding?.albumGroup?.visibility = View.GONE
         }
 
         Glide.with(this)
@@ -82,6 +82,6 @@ class PlayerActivity : AppCompatActivity() {
                 CenterCrop(),
                 RoundedCorners(8)
             )
-            .into(binding.trackCover)
+            .into(binding?.trackCover!!)
     }
 }

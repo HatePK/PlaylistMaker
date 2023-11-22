@@ -68,18 +68,18 @@ class PlayerViewModel(
     private fun startTimer() {
         timerJob = viewModelScope.launch {
             while (mediaPlayerInteractor.isPlaying()) {
-                delay(debounceDelay)
+                delay(DEBOUNCE_DELAY_MILLIS)
                 playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
             }
         }
     }
 
     private fun getCurrentPlayerPosition(): String {
-        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayerInteractor.currentPosition()) ?: timer
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayerInteractor.currentPosition()) ?: TIMER
     }
 
     companion object {
-        private const val debounceDelay = 300L
-        private const val timer = "00:00"
+        private const val DEBOUNCE_DELAY_MILLIS = 300L
+        private const val TIMER = "00:00"
     }
 }
