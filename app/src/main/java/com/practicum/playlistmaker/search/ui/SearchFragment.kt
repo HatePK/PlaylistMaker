@@ -3,8 +3,6 @@ package com.practicum.playlistmaker.search.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -18,13 +16,15 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
-import com.practicum.playlistmaker.player.ui.MediaActivity
+import com.practicum.playlistmaker.player.ui.PlayerActivity
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.presentation.SearchState
 import com.practicum.playlistmaker.search.presentation.SearchViewModel
+import com.practicum.playlistmaker.utils.Debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val CURRENT_TRACK = "track"
@@ -47,28 +47,20 @@ class SearchFragment:Fragment() {
     private lateinit var progressBar: ProgressBar
 
     private val trackAdapter = TrackAdapter {
-        if (clickDebounce()) {
-            val mediaIntent = Intent(requireContext(), MediaActivity::class.java)
-            mediaIntent.putExtra(CURRENT_TRACK, it);
-            startActivity(mediaIntent)
-            viewModel.addTrackToHistory(it)}
+        onTrackClickDebounce(it)
     }
 
     private val savedTrackAdapter = TrackAdapter {
-        if (clickDebounce()) {
-            val mediaIntent = Intent(requireContext(), MediaActivity::class.java)
-            mediaIntent.putExtra(CURRENT_TRACK, it);
-            startActivity(mediaIntent)
-        }
+        onTrackClickDebounce(it)
     }
 
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     private var textWatcher: TextWatcher? = null
 
     private val viewModel by viewModel<SearchViewModel>()
 
     private lateinit var binding: FragmentSearchBinding
+
+    private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,6 +73,17 @@ class SearchFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onTrackClickDebounce = Debounce().debounce(
+            CLICK_DEBOUNCE_DELAY_MILLIS,
+            viewLifecycleOwner.lifecycleScope,
+            false,
+        ) {
+            val mediaIntent = Intent(requireContext(), PlayerActivity::class.java)
+            mediaIntent.putExtra(CURRENT_TRACK, it);
+            startActivity(mediaIntent)
+            viewModel.addTrackToHistory(it)
+        }
 
         setViews()
         setAdapter()
@@ -102,15 +105,6 @@ class SearchFragment:Fragment() {
         super.onDestroyView()
         textWatcher?.let { inputEditText.removeTextChangedListener(it) }
     }
-    private fun clickDebounce() : Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
-        }
-        return current
-    }
-
     private fun setViews() {
         searchPlaceholder = binding.searchPlaceholder
         searchPlaceholderMessage = binding.searchPlaceholderMessage
@@ -267,6 +261,6 @@ class SearchFragment:Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 200L
     }
 }

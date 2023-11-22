@@ -36,10 +36,15 @@ class MediaPlayerRepositoryImpl: MediaPlayerRepository {
     }
 
     override fun release() {
+        mediaPlayer.stop()
         mediaPlayer.release()
     }
 
     override fun currentPosition(): Int {
         return mediaPlayer.currentPosition
+    }
+
+    override fun isPlaying(): Boolean {
+        return mediaPlayer.isPlaying
     }
 }

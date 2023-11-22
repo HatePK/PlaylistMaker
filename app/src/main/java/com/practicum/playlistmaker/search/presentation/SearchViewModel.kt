@@ -1,39 +1,48 @@
 package com.practicum.playlistmaker.search.presentation
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.search.domain.SearchInteractor
 import com.practicum.playlistmaker.search.domain.entity.Track
+import com.practicum.playlistmaker.utils.Debounce
+import kotlinx.coroutines.launch
+
 
 class SearchViewModel (application: Application, private val searchInteractor: SearchInteractor) : AndroidViewModel(application) {
 
-        private val handler = Handler(Looper.getMainLooper())
 
         private val tracks = ArrayList<Track>()
         private val savedTracks = searchInteractor.returnSavedTracks()
 
         private val stateLiveData = MutableLiveData<SearchState>()
         private val savedTracksLiveData = MutableLiveData(savedTracks)
+
+        private var latestSearchText: String? = null
         fun observeState(): LiveData<SearchState> = stateLiveData
         fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
 
         private fun renderState(state: SearchState) {
             stateLiveData.postValue(state)
         }
+
+        private val debounceHandler = Debounce()
+
+        private val trackSearchDebounce = debounceHandler.debounce<String>(
+            SEARCH_DEBOUNCE_DELAY,
+            viewModelScope,
+            true,
+        ) {
+            makeSearch(it)
+        }
         fun searchDebounce(changedText: String) {
-            handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-
-            val searchRunnable = Runnable { makeSearch(changedText) }
-            val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
-
-            handler.postAtTime(searchRunnable, SEARCH_REQUEST_TOKEN, postTime)
+            if (latestSearchText != changedText) {
+                latestSearchText = changedText
+                trackSearchDebounce(changedText)
+            }
         }
 
         fun makeSearch(newSearchText: String) {
@@ -41,41 +50,41 @@ class SearchViewModel (application: Application, private val searchInteractor: S
 
                 renderState(SearchState.Loading)
 
-                searchInteractor.searchTracks(newSearchText, object : SearchInteractor.TracksConsumer {
-                    @SuppressLint("NotifyDataSetChanged")
-                    override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                        if (foundTracks != null) {
-                            tracks.clear()
-                            tracks.addAll(foundTracks)
+                viewModelScope.launch {
+                    searchInteractor.searchTracks(newSearchText)
+                        .collect { pair ->
+                            processResult(pair.first, pair.second)
                         }
-
-                        when {
-                            errorMessage != null -> {
-                                renderState(
-                                    SearchState.Error(errorMessage = getApplication<Application>().getString(R.string.something_went_wrong))
-                                )
-                            }
-
-                            tracks.isEmpty() -> {
-                                renderState(
-                                    SearchState.Empty(message = getApplication<Application>().getString(R.string.nothing_found))
-                                )
-                            }
-
-                            else -> {
-                                renderState(
-                                    SearchState.SearchContent(tracks = tracks)
-                                )
-                            }
-                        }
-                    }
-                })
+                }
             }
         }
 
-        override fun onCleared() {
-            handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+    private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
+        if (foundTracks != null) {
+            tracks.clear()
+            tracks.addAll(foundTracks)
         }
+
+        when {
+            errorMessage != null -> {
+                renderState(
+                    SearchState.Error(errorMessage = getApplication<Application>().getString(R.string.something_went_wrong))
+                )
+            }
+
+            tracks.isEmpty() -> {
+                renderState(
+                    SearchState.Empty(message = getApplication<Application>().getString(R.string.nothing_found))
+                )
+            }
+
+            else -> {
+                renderState(
+                    SearchState.SearchContent(tracks = tracks)
+                )
+            }
+        }
+    }
 
         fun clearHistory(){
             searchInteractor.clearSavedTracks()
@@ -84,7 +93,7 @@ class SearchViewModel (application: Application, private val searchInteractor: S
         }
 
         fun clearTracks(){
-            handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+            debounceHandler.cancel()
 
             tracks.clear()
             stateLiveData.value = SearchState.SearchContent(tracks)
@@ -108,6 +117,5 @@ class SearchViewModel (application: Application, private val searchInteractor: S
 
         companion object {
             private const val SEARCH_DEBOUNCE_DELAY = 2000L
-            private val SEARCH_REQUEST_TOKEN = Any()
         }
 }

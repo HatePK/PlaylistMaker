@@ -7,9 +7,13 @@ interface MediaPlayerInteractor {
         onPreparedPlayer: () -> Unit,
         onCompletionPlayer: () -> Unit
     )
+
+    fun setOnCompletionListener(onCompletionListener: () -> Unit)
     fun startPlayer(onStartPlayer: () -> Unit)
     fun pausePlayer(onPausePlayer: () -> Unit)
     fun playbackControl(onStartPlayer: () -> Unit, onPausePlayer: () -> Unit)
     fun release()
     fun currentPosition(): Int
+
+    fun isPlaying(): Boolean
 }
