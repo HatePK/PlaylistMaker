@@ -45,8 +45,20 @@ class PlayerActivity : AppCompatActivity() {
                 playButton.setImageResource(playButtonImage(it.isPlaying))
             }
 
+            viewModel.observeIsFavourite.observe(this) {isFavourite ->
+                if (isFavourite) {
+                    binding?.likeButton?.setImageResource(R.drawable.like_button_active)
+                } else {
+                    binding?.likeButton?.setImageResource(R.drawable.like_button)
+                }
+            }
+
             binding?.menuButton?.setOnClickListener {
                 super.onBackPressed()
+            }
+
+            binding?.likeButton?.setOnClickListener {
+                viewModel.onFavoriteClicked()
             }
 
             playButton.setOnClickListener {

@@ -2,7 +2,10 @@ package com.practicum.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.practicum.playlistmaker.library.di.libraryModule
+import com.practicum.playlistmaker.library.di.libraryDataModule
+import com.practicum.playlistmaker.library.di.libraryInteractorModule
+import com.practicum.playlistmaker.library.di.libraryRepositoryModule
+import com.practicum.playlistmaker.library.di.libraryViewModelModule
 import com.practicum.playlistmaker.player.di.playInteractorModule
 import com.practicum.playlistmaker.player.di.playRepositoryModule
 import com.practicum.playlistmaker.player.di.playViewModelModule
@@ -35,7 +38,7 @@ class App : Application() {
             modules(playRepositoryModule, playInteractorModule, playViewModelModule)
             modules(sharingDataModule, sharingInteractorModule)
             modules(settingsRepositoryModule, settingsViewModelModule)
-            modules(libraryModule)
+            modules(libraryViewModelModule, libraryDataModule, libraryRepositoryModule, libraryInteractorModule)
         }
     }
 

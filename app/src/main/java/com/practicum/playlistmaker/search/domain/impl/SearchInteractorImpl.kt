@@ -29,7 +29,7 @@ class SearchInteractorImpl(private val repository: SearchRepository): SearchInte
         repository.clearSavedTracks()
     }
 
-    override fun returnSavedTracks(): ArrayList<Track> {
+    override suspend fun returnSavedTracks(): ArrayList<Track> {
         return repository.returnSavedTracks()
     }
 }

@@ -5,10 +5,10 @@ import com.practicum.playlistmaker.library.presentation.PlaylistsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val libraryModule = module {
+val libraryViewModelModule = module {
 
     viewModel {
-        FavouritesViewModel()
+        FavouritesViewModel(get(), get())
     }
 
     viewModel {

@@ -16,14 +16,23 @@ class SearchViewModel (application: Application, private val searchInteractor: S
 
 
         private val tracks = ArrayList<Track>()
-        private val savedTracks = searchInteractor.returnSavedTracks()
+        private val savedTracks = ArrayList<Track>()
 
         private val stateLiveData = MutableLiveData<SearchState>()
-        private val savedTracksLiveData = MutableLiveData(savedTracks)
+        fun observeState(): LiveData<SearchState> = stateLiveData
+
+
+        private val savedTracksLiveData = MutableLiveData<ArrayList<Track>>()
+        fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
+
 
         private var latestSearchText: String? = null
-        fun observeState(): LiveData<SearchState> = stateLiveData
-        fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
+
+        init {
+            viewModelScope.launch {
+                savedTracks.addAll(searchInteractor.returnSavedTracks())
+            }
+        }
 
         private fun renderState(state: SearchState) {
             stateLiveData.postValue(state)
@@ -107,12 +116,15 @@ class SearchViewModel (application: Application, private val searchInteractor: S
 
         fun addTrackToHistory(track: Track) {
             searchInteractor.addTrackToHistory(track)
-            val sharedPrefsTracks = searchInteractor.returnSavedTracks()
 
-            savedTracks.clear()
-            savedTracks.addAll(sharedPrefsTracks)
+            viewModelScope.launch {
+                val sharedPrefsTracks = searchInteractor.returnSavedTracks()
 
-            savedTracksLiveData.postValue(sharedPrefsTracks)
+                savedTracks.clear()
+                savedTracks.addAll(sharedPrefsTracks)
+
+                savedTracksLiveData.postValue(sharedPrefsTracks)
+            }
         }
 
         companion object {

@@ -12,5 +12,12 @@ data class Track (
     val releaseDate: String,
     val primaryGenreName: String,
     val country: String,
-    val previewUrl: String
-) : Serializable
+    val previewUrl: String,
+    var isFavorite: Boolean = false
+) : Serializable {
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is Track)
+            return false
+        return trackId == other.trackId
+    }
+}
