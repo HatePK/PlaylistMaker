@@ -104,6 +104,11 @@ class SearchFragment:Fragment() {
         super.onDestroyView()
         textWatcher?.let { inputEditText.removeTextChangedListener(it) }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.compare()
+    }
     private fun setViews() {
         searchPlaceholder = binding.searchPlaceholder
         searchPlaceholderMessage = binding.searchPlaceholderMessage

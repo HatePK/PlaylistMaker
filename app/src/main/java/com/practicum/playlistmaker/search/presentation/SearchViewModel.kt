@@ -6,13 +6,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.library.data.db.AppDatabase
+import com.practicum.playlistmaker.library.domain.FavouritesInteractor
 import com.practicum.playlistmaker.search.domain.SearchInteractor
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.utils.Debounce
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class SearchViewModel (application: Application, private val searchInteractor: SearchInteractor) : AndroidViewModel(application) {
+class SearchViewModel (
+    application: Application,
+    private val searchInteractor: SearchInteractor,
+    private val favouritesInteractor: FavouritesInteractor
+) : AndroidViewModel(application) {
 
 
         private val tracks = ArrayList<Track>()
@@ -31,6 +38,21 @@ class SearchViewModel (application: Application, private val searchInteractor: S
         init {
             viewModelScope.launch {
                 savedTracks.addAll(searchInteractor.returnSavedTracks())
+            }
+        }
+
+        fun compare() {
+            viewModelScope.launch {
+                favouritesInteractor
+                    .getFavouritesId()
+                    .collect { idList ->
+                        for (track in tracks) {
+                            track.isFavorite = idList.contains(track.trackId)
+                        }
+                        for (track in savedTracks) {
+                            track.isFavorite = idList.contains(track.trackId)
+                        }
+                    }
             }
         }
 

@@ -29,17 +29,6 @@ class PlayerViewModel(
     val observeIsFavourite: LiveData<Boolean> = isFavourite
 
     init {
-        viewModelScope.launch {
-            favouritesInteractor.getFavouritesId().collect {tracksId ->
-                Log.d("ABOBA", "$tracksId")
-                if (tracksId.contains(track.trackId)) {
-                    isFavourite.postValue(true)
-                } else {
-                    isFavourite.postValue(false)
-                }
-            }
-        }
-
         mediaPlayerInteractor.preparePlayer(
             track.previewUrl,
             { playerState.postValue(PlayerState.Prepared()) },
@@ -65,12 +54,16 @@ class PlayerViewModel(
 
     fun onFavoriteClicked() {
         if (isFavourite.value == false) {
+            track.isFavorite = true
             viewModelScope.launch {
+                Log.d("ABOBA", "$track")
                 favouritesInteractor.addTrackToFavourites(track)
             }
             isFavourite.postValue(true)
         } else {
+            track.isFavorite = false
             viewModelScope.launch {
+                Log.d("ABOBA", "$track")
                 favouritesInteractor.deleteTrackFromFavourites(track)
             }
             isFavourite.postValue(false)
