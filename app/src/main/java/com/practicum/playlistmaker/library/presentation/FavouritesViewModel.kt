@@ -24,7 +24,7 @@ class FavouritesViewModel(
         updateFavourites()
     }
     fun updateFavourites() {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             favouritesInteractor.getFavourites()
                 .collect { dbTracks ->
                     if (dbTracks.isEmpty()) {
