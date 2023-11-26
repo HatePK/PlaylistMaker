@@ -24,9 +24,11 @@
         <item name="android:paddingHorizontal">@dimen/settings_menu_button_padding_right</item>
     </style>
     <style name="SwitchButton">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:thumbTint">@color/switch_color</item>
-        <item name="android:trackTint">@color/switch_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/settings_menu_button_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingHorizontal">@dimen/settings_menu_button_padding_right</item>
+        <item name="trackTint">@color/switch_color_track_dark</item>
     </style>
     <style name="ButtonText">
         <item name="android:layout_width">wrap_content</item>
@@ -156,8 +158,11 @@
     </style>
 
     <style name="media_track_name">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:layout_marginTop">@dimen/media_track_name_margin_top</item>
         <item name="android:background">@null</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
@@ -166,8 +171,11 @@
     </style>
 
     <style name="media_track_author">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:layout_marginTop">@dimen/media_track_author_margin_top</item>
         <item name="android:background">@null</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
@@ -210,6 +218,7 @@
     <style name="library_tab_layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/tab_layout_height</item>
+        <item name="android:background">@color/main_background_dark</item>
         <item name="tabIndicatorColor">@color/white</item>
         <item name="tabTextColor">@color/white</item>
         <item name="tabMode">fixed</item>
@@ -220,5 +229,16 @@
     <style name="library_view_pager">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="bottom_navigation">
+        <item name="itemIconTint">@color/color_selector</item>
+        <item name="itemTextColor">@color/color_selector</item>
+        <item name="backgroundTint">@color/main_background_dark </item>
+        <item name="itemActiveIndicatorStyle">@color/white</item>
+    </style>
+
+    <style name="app_color">
+        <item name="android:background">@color/main_background_dark</item>
     </style>
 </resources>

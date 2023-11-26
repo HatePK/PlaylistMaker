@@ -6,24 +6,55 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.library.data.db.AppDatabase
+import com.practicum.playlistmaker.library.domain.FavouritesInteractor
 import com.practicum.playlistmaker.search.domain.SearchInteractor
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.utils.Debounce
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class SearchViewModel (application: Application, private val searchInteractor: SearchInteractor) : AndroidViewModel(application) {
+class SearchViewModel (
+    application: Application,
+    private val searchInteractor: SearchInteractor,
+    private val favouritesInteractor: FavouritesInteractor
+) : AndroidViewModel(application) {
 
 
         private val tracks = ArrayList<Track>()
-        private val savedTracks = searchInteractor.returnSavedTracks()
+        private val savedTracks = ArrayList<Track>()
 
         private val stateLiveData = MutableLiveData<SearchState>()
-        private val savedTracksLiveData = MutableLiveData(savedTracks)
+        fun observeState(): LiveData<SearchState> = stateLiveData
+
+
+        private val savedTracksLiveData = MutableLiveData<ArrayList<Track>>()
+        fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
+
 
         private var latestSearchText: String? = null
-        fun observeState(): LiveData<SearchState> = stateLiveData
-        fun getSavedTracksLiveData(): LiveData<ArrayList<Track>> = savedTracksLiveData
+
+        init {
+            viewModelScope.launch {
+                savedTracks.addAll(searchInteractor.returnSavedTracks())
+            }
+        }
+
+        fun compare() {
+            viewModelScope.launch {
+                favouritesInteractor
+                    .getFavouritesId()
+                    .collect { idList ->
+                        for (track in tracks) {
+                            track.isFavorite = idList.contains(track.trackId)
+                        }
+                        for (track in savedTracks) {
+                            track.isFavorite = idList.contains(track.trackId)
+                        }
+                    }
+            }
+        }
 
         private fun renderState(state: SearchState) {
             stateLiveData.postValue(state)
@@ -107,12 +138,15 @@ class SearchViewModel (application: Application, private val searchInteractor: S
 
         fun addTrackToHistory(track: Track) {
             searchInteractor.addTrackToHistory(track)
-            val sharedPrefsTracks = searchInteractor.returnSavedTracks()
 
-            savedTracks.clear()
-            savedTracks.addAll(sharedPrefsTracks)
+            viewModelScope.launch {
+                val sharedPrefsTracks = searchInteractor.returnSavedTracks()
 
-            savedTracksLiveData.postValue(sharedPrefsTracks)
+                savedTracks.clear()
+                savedTracks.addAll(sharedPrefsTracks)
+
+                savedTracksLiveData.postValue(sharedPrefsTracks)
+            }
         }
 
         companion object {

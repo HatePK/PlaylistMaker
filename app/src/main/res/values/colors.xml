@@ -9,5 +9,9 @@
     <color name="second_menu_background">#F5F5F5</color>
     <color name="second_menu_button_text_color">#000000</color>
     <color name="search_clean_hint_color">#AEAFB4</color>
+    <color name="bottom_nav_top_border_color">#E6E8EB</color>
+    <color name="switch_color_track_dark">#9FBBF3 </color>
+    <color name="switch_color_track_light">#E6E8EB </color>
+    <color name="switch_color_thumb_light">#AEAFB4 </color>
 </resources>
 

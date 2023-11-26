@@ -74,6 +74,11 @@ class SearchFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setViews()
+        setAdapter()
+        setListeners()
+        searchHistory()
+
         onTrackClickDebounce = Debounce().debounce(
             CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
@@ -85,11 +90,6 @@ class SearchFragment:Fragment() {
             viewModel.addTrackToHistory(it)
         }
 
-        setViews()
-        setAdapter()
-        setListeners()
-        searchHistory()
-
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
@@ -100,10 +100,14 @@ class SearchFragment:Fragment() {
             savedTrackAdapter.notifyDataSetChanged()
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         textWatcher?.let { inputEditText.removeTextChangedListener(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.compare()
     }
     private fun setViews() {
         searchPlaceholder = binding.searchPlaceholder
