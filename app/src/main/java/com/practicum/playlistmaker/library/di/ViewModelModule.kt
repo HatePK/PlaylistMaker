@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.library.di
 
+import com.practicum.playlistmaker.library.presentation.AddNewPlaylistViewModel
 import com.practicum.playlistmaker.library.presentation.FavouritesViewModel
 import com.practicum.playlistmaker.library.presentation.PlaylistsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,7 +13,11 @@ val libraryViewModelModule = module {
     }
 
     viewModel {
-        PlaylistsViewModel()
+        PlaylistsViewModel(get(), get())
+    }
+
+    viewModel {
+        AddNewPlaylistViewModel(get())
     }
 
 }

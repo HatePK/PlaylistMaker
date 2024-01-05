@@ -5,4 +5,5 @@ sealed class PlayerState(val isPlayButtonEnabled: Boolean, val isPlaying: Boolea
     class Prepared: PlayerState(true, false, "00:00")
     class Playing(progress: String) : PlayerState(true, true, progress)
     class Paused(progress: String) : PlayerState(true, false, progress)
+
 }

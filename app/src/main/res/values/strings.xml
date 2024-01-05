@@ -31,6 +31,6 @@
     <string name="library_tab_name_favourites">Избранные треки</string>
     <string name="library_tab_name_playlists">Плейлисты</string>
 
-
+    <string name="bottom_sheet_header">Добавить в плейлист</string>
 
 </resources>

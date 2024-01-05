@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@null">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/playlistCover"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:scaleType="centerCrop"
+            android:background="@null"
+            app:layout_constraintDimensionRatio="1:1"
+            app:srcCompat="@drawable/placeholder"
+            />
+
+        <TextView
+            android:id="@+id/playlistName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/playlist_name"
+            tools:text="Название трекаНазвание трекаНазвание трекаНазвание трекаНазвание трекаНазвание трека" />
+
+        <TextView
+            android:id="@+id/playlistAmountOfTracks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/playlist_description"
+            tools:text="157 треков" />
+    </LinearLayout>
+
+</LinearLayout>
