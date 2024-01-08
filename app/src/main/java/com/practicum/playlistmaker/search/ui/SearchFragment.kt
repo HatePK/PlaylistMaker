@@ -17,10 +17,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
-import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.player.ui.PlayerFragment
 import com.practicum.playlistmaker.search.domain.entity.Track
 import com.practicum.playlistmaker.search.presentation.SearchState
 import com.practicum.playlistmaker.search.presentation.SearchViewModel
@@ -84,9 +85,7 @@ class SearchFragment:Fragment() {
             viewLifecycleOwner.lifecycleScope,
             false,
         ) {
-            val mediaIntent = Intent(requireContext(), PlayerActivity::class.java)
-            mediaIntent.putExtra(CURRENT_TRACK, it);
-            startActivity(mediaIntent)
+            findNavController().navigate(R.id.action_searchFragment_to_playerFragment, PlayerFragment.createArgs(it))
             viewModel.addTrackToHistory(it)
         }
 

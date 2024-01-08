@@ -68,7 +68,10 @@
     <dimen name="tab_layout_height">48dp</dimen>
     <dimen name="tab_layout_indicator_height">2dp</dimen>
 
+    <dimen name="playlist_name_margin_top">4dp</dimen>
+    <dimen name="playlist_text_font_size">12sp</dimen>
 
-
-
+    <dimen name="bottom_sheet_header_padding_horizontal">3dp</dimen>
+    <dimen name="bottom_sheet_header_margin_top">30dp</dimen>
+    <dimen name="bottom_sheet_header_font_size">19sp</dimen>
 </resources>
