@@ -33,6 +33,7 @@ class SearchRepositoryImpl(
                         it.trackId,
                         it.trackName,
                         it.artistName,
+                        it.trackTimeMillis,
                         it.getFormattedDuration(),
                         it.getCoverArtwork(),
                         it.collectionName,

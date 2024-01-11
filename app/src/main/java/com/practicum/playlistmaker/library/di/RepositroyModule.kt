@@ -13,7 +13,7 @@ val libraryRepositoryModule = module {
     }
 
     single<PlaylistsRepository> {
-        PlaylistsRepositoryImpl(get(), get(), get())
+        PlaylistsRepositoryImpl(get(), get(), get(), get())
     }
 
 }
