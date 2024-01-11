@@ -32,5 +32,9 @@
     <string name="library_tab_name_playlists">Плейлисты</string>
 
     <string name="bottom_sheet_header">Добавить в плейлист</string>
+    <string name="playlist_unit_empty_placeholder">В этом плейлисте пока нет треков</string>
+    <string name="playlist_unit_no_tracks_for_sharing">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="playlist_unit_ensure_about_deleting">Хотите удалить трек?</string>
+
 
 </resources>

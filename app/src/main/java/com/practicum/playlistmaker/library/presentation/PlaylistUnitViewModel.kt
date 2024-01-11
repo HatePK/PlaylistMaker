@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.library.presentation
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,22 +17,23 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlaylistUnitViewModel(
+    application: Application,
     private val playlist: Playlist,
-    private val playlistsInteractor: PlaylistsInteractor): ViewModel() {
+    private val playlistsInteractor: PlaylistsInteractor): AndroidViewModel(application) {
 
     val tracks = ArrayList<Track>()
 
-    private var tracksDuration = MutableLiveData("0")
-    fun observeTracksDuration(): LiveData<String> = tracksDuration
+    private var _tracksDuration = MutableLiveData("0")
+    val tracksDuration: LiveData<String> = _tracksDuration
 
-    private var tracksAmount = MutableLiveData(0)
-    fun observeTracksAmount(): LiveData<Int> = tracksAmount
+    private var _tracksAmount = MutableLiveData(0)
+    val tracksAmount: LiveData<Int> = _tracksAmount
 
-    private var playlistsState = MutableLiveData<PlaylistUnitState>(PlaylistUnitState.Loading)
-    fun observePlaylistsState(): LiveData<PlaylistUnitState> = playlistsState
+    private var _playlistsState = MutableLiveData<PlaylistUnitState>(PlaylistUnitState.Loading)
+    val playlistsState: LiveData<PlaylistUnitState> = _playlistsState
 
-    private var playlistInfo = MutableLiveData(playlist)
-    fun observePlaylistInfo(): LiveData<Playlist> = playlistInfo
+    private var _playlistInfo = MutableLiveData(playlist)
+    val playlistInfo: LiveData<Playlist> = _playlistInfo
 
     fun deleteTrack(trackId: String) {
         viewModelScope.launch {
@@ -54,20 +56,26 @@ class PlaylistUnitViewModel(
     fun updateAfterEdit() {
         viewModelScope.launch {
             playlistsInteractor.getPlaylists().collect {
-                playlistInfo.postValue(it.filter { it.playlistId == playlist.playlistId }[0])
+                _playlistInfo.postValue(it.filter { it.playlistId == playlist.playlistId }[0])
             }
         }
     }
 
     private suspend fun updateInfo() {
+
+        val reversedTracks = ArrayList<Track>()
+
         playlistsInteractor.getPlaylistsTracks(playlist.tracksId).collect {dbTracks ->
-            tracks.add(dbTracks)
+            reversedTracks.add(dbTracks)
         }
 
+        reversedTracks.reverse()
+        tracks.addAll(reversedTracks)
+
         if (tracks.isEmpty()) {
-            playlistsState.postValue(PlaylistUnitState.Empty)
+            _playlistsState.postValue(PlaylistUnitState.Empty(getApplication<Application>().getString(R.string.playlist_unit_empty_placeholder)))
         } else {
-            playlistsState.postValue(PlaylistUnitState.Content(tracks))
+            _playlistsState.postValue(PlaylistUnitState.Content(tracks))
         }
 
         var duration = 0
@@ -75,8 +83,8 @@ class PlaylistUnitViewModel(
 
         val stringDuration = SimpleDateFormat("m", Locale.getDefault()).format(duration)
 
-        tracksDuration.postValue(stringDuration)
-        tracksAmount.postValue(tracks.size)
+        _tracksDuration.postValue(stringDuration)
+        _tracksAmount.postValue(tracks.size)
     }
 
     fun sharePlaylist() {

@@ -23,7 +23,7 @@ val libraryViewModelModule = module {
     }
 
     viewModel{
-        PlaylistUnitViewModel(get(), get())
+        PlaylistUnitViewModel(get(), get(), get())
     }
 
     viewModel{

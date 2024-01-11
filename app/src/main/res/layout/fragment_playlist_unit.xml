@@ -153,6 +153,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:id="@+id/placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/playlist_placeholder_message"/>
+
     </LinearLayout>
 
     <View android:id="@+id/overlay"
@@ -216,46 +223,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:layout_marginTop="8dp">
+            android:layout_height="@dimen/playlist_bottom_menu_button_height"
+            android:layout_marginTop="@dimen/playlist_bottom_menu_container_margin_top">
             <TextView
                 android:id="@+id/action_menu_share_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:fontFamily="@font/ys_display_regular"
-                android:textSize="16sp"
-                android:textColor="@color/black_text_color"
-                android:text="Поделиться"
-                android:layout_gravity="center_vertical"/>
+                style="@style/playlist_bottom_sheet_menu_button"
+                android:text="Поделиться"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="61dp">
+            android:layout_height="@dimen/playlist_bottom_menu_button_height">
             <TextView
                 android:id="@+id/action_menu_edit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:fontFamily="@font/ys_display_regular"
-                android:textSize="16sp"
-                android:textColor="@color/black_text_color"
-                android:text="Редактировать информацию"
-                android:layout_gravity="center_vertical"/>
+                style="@style/playlist_bottom_sheet_menu_button"
+                android:text="Редактировать информацию"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="61dp">
+            android:layout_height="@dimen/playlist_bottom_menu_button_height">
             <TextView
                 android:id="@+id/action_menu_delete_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:fontFamily="@font/ys_display_regular"
-                android:textSize="16sp"
-                android:textColor="@color/black_text_color"
-                android:text="Удалить плейлист"
-                android:layout_gravity="center_vertical"/>
+                style="@style/playlist_bottom_sheet_menu_button"
+                android:text="Удалить плейлист"/>
         </LinearLayout>
     </LinearLayout>
 
