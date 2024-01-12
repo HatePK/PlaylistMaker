@@ -58,6 +58,12 @@
     <dimen name="media_info_header_padding_bottom">8dp</dimen>
     <dimen name="media_info_font_size">13sp</dimen>
 
+    <dimen name="playlist_screen_horizontal_guidelines">16dp</dimen>
+    <dimen name="playlist_screen_name_margin_top">24dp</dimen>
+    <dimen name="playlist_screen_name_font_size">24sp</dimen>
+    <dimen name="playlist_screen_description_margin_top">8dp</dimen>
+    <dimen name="playlist_screen_description_font_size">18sp</dimen>
+
     <dimen name="playlists_placeholder_image_margin_top">106dp</dimen>
     <dimen name="playlists_placeholder_message_margin_top">16dp</dimen>
 
@@ -74,4 +80,13 @@
     <dimen name="bottom_sheet_header_padding_horizontal">3dp</dimen>
     <dimen name="bottom_sheet_header_margin_top">30dp</dimen>
     <dimen name="bottom_sheet_header_font_size">19sp</dimen>
+
+    <dimen name="playlist_placeholder_message_font_size">16sp</dimen>
+    <dimen name="playlist_placeholder_message_margin_top">30dp</dimen>
+
+    <dimen name="playlist_bottom_menu_button_text_size">16sp</dimen>
+    <dimen name="playlist_bottom_menu_button_padding_horizontal">16dp</dimen>
+    <dimen name="playlist_bottom_menu_button_height">61dp</dimen>
+    <dimen name="playlist_bottom_menu_container_margin_top">8dp</dimen>
+
 </resources>

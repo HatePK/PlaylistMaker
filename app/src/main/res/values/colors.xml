@@ -13,5 +13,6 @@
     <color name="switch_color_track_dark">#9FBBF3 </color>
     <color name="switch_color_track_light">#E6E8EB </color>
     <color name="switch_color_thumb_light">#AEAFB4 </color>
+    <color name="playlist_screen_background">#E6E8EB </color>
 </resources>
 

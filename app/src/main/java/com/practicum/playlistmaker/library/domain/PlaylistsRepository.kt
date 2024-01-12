@@ -12,4 +12,12 @@ interface PlaylistsRepository {
 
     suspend fun saveTrackInPlaylistsDb(track: Track)
 
+    suspend fun getPlaylistsTracks(playlistsId: List<String>): Flow<Track>
+
+    suspend fun deleteTrackFromPlaylist(trackId: String, playlist: Playlist)
+
+    fun sharePlaylist(playlist: Playlist, tracks: List<Track>)
+
+    suspend fun deletePlaylist(playlist: Playlist)
+
 }

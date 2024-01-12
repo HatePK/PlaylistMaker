@@ -23,4 +23,20 @@ class PlaylistsInteractorImpl(private val playlistsRepository: PlaylistsReposito
     override suspend fun saveTrackInPlaylistsDb(track: Track) {
         playlistsRepository.saveTrackInPlaylistsDb(track)
     }
+
+    override suspend fun getPlaylistsTracks(playlistsId: List<String>): Flow<Track> {
+        return playlistsRepository.getPlaylistsTracks(playlistsId)
+    }
+
+    override suspend fun deleteTrackFromPlaylist(trackId: String, playlist: Playlist) {
+        playlistsRepository.deleteTrackFromPlaylist(trackId, playlist)
+    }
+
+    override fun sharePlaylist(playlist: Playlist, tracks: List<Track>) {
+        playlistsRepository.sharePlaylist(playlist, tracks)
+    }
+
+    override suspend fun deletePlaylist(playlist: Playlist) {
+        playlistsRepository.deletePlaylist(playlist)
+    }
 }

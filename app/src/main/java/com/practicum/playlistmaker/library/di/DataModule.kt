@@ -15,7 +15,7 @@ val libraryDataModule = module {
             .build()
     }
 
-    factory {TrackDbConverter()}
-    factory {PlaylistDbConverter()}
+    factory { TrackDbConverter() }
+    factory { PlaylistDbConverter() }
     factory { PlaylistsTracksDbConverter() }
 }
