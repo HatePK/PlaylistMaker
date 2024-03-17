@@ -1,0 +1,24 @@
+
+# Playlist Maker
+
+Приложение для создания плейлистов на базе api iTunes. Позволяет осуществлять поиск по базе треков iTunes, создавать плейлисты из треков, прослушивать 30-секундные демо, добавлять треки в избранное. 
+
+**Стэк:** Room, Rentrofit2, Koin
+
+В качестве архитектурнего паттерна используется MVVM. Приложение построено на Single Activity с фрагментами. Навигация осуществляется с помощью Navigation Component.
+
+## Установка
+
+Запуск проекта в Android Studio
+
+```bash
+Get from VCS:
+
+https://github.com/HatePK/PlaylistMaker.git
+```
+    
+## Screenshots
+
+![App Screenshot](https://i.ibb.co/Y00tchL/Screenshot-20240317-150850.png) 
+![App Screenshot](https://i.ibb.co/ckTLFwm/Screenshot-20240317-160329.png) 
+![App Screenshot](https://i.ibb.co/ckTLFwm/Screenshot-20240317-161117.png) 
