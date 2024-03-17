@@ -16,7 +16,8 @@ https://github.com/HatePK/PlaylistMaker.git
 ```
     
 ## Screenshots
-
-<img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-150850.png" width="300"> 
-<img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-160329.png" width="300"> 
-<img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-161117.png" width="300"> 
+<p float="left">
+    <img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-150850.png" width="300"> 
+    <img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-160329.png" width="300"> 
+    <img src="https://i.ibb.co/Y00tchL/Screenshot-20240317-161117.png" width="300"> 
+</p>
