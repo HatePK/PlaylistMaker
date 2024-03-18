@@ -17,7 +17,7 @@ https://github.com/HatePK/PlaylistMaker.git
     
 ## Скриншоты
 <p float="left">
-    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_150850.png" width="300"> 
-    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_160329.png" width="300"> 
-    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_161117.png" width="300"> 
+    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_150850.png" width="250"> 
+    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_160329.png" width="250"> 
+    <img src="https://github.com/HatePK/PlaylistMaker/blob/dev/Screenshot_20240317_161117.png" width="250"> 
 </p> 
