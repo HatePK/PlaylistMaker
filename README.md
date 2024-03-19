@@ -8,6 +8,7 @@
 **Стэк:** Room, Rentrofit2, Koin
 
 ## Установка
+[![APK Download](https://img.shields.io/badge/APK-Download-brightgreen?logo=android)](https://github.com/HatePK/PlaylistMaker/releases/download/v1.0.0/Playlist.Maker.apk)
 
 Запуск проекта в Android Studio
 
